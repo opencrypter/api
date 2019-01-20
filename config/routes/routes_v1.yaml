@@ -1,0 +1,4 @@
+all_exchanges:
+    path: /v1/exchanges
+    methods: [GET]
+    controller: Core\Ui\Http\GetAllAvailableExchangesController::run

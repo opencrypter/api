@@ -1,0 +1,9 @@
+tactician:
+    default_bus: query
+    commandbus:
+        query:
+            middleware:
+                - tactician.middleware.command_handler
+        command:
+            middleware:
+                - tactician.middleware.command_handler

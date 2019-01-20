@@ -1,0 +1,10 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Implementations
+  Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository: ~
+
+  # Aliases
+  Core\Domain\Exchange\ExchangeRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository'

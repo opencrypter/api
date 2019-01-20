@@ -1,0 +1,25 @@
+default:
+    suites:
+        default:
+            paths:
+                - ./tests/Features
+
+            contexts:
+                - Tests\Util\Context\ExchangeContext:
+                      repository: '@Core\Domain\Exchange\ExchangeRepository'
+                - Tests\Util\Context\FeatureContext:
+                    manager: '@doctrine.orm.entity_manager'
+                - behatch:context:json
+                - behatch:context:rest
+
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: tests/behat_bootstrap.php
+                class: Core\Kernel
+        Behat\MinkExtension:
+            base_url: '%env(resolve:BEHAT_BASE_HOST)%'
+            sessions:
+                default:
+                    symfony2: ~
+        Behatch\Extension: ~

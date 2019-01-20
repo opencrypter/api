@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Core\Ui\Http\:
+    resource: '../../src/Core/Ui/Http'
+    tags: ['controller.service_arguments']
+
+  Core\Ui\Http\Controller:
+    abstract: true
+    arguments:
+      - '@tactician.commandbus.query'
+      - '@tactician.commandbus.command'

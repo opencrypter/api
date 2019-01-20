@@ -1,0 +1,15 @@
+Core\Domain\Exchange\Exchange:
+  type: entity
+  table: exchange
+
+  id:
+    id:
+      type: exchange_id
+  fields:
+    name:
+      type: name
+    createdAt:
+      type: created_at
+    updatedAt:
+      type: updated_at
+      nullable: true

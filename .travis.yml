@@ -1,0 +1,12 @@
+language: php
+
+services:
+  - docker
+
+install:
+  - composer install
+
+script:
+  - docker-compose up -d
+  - docker exec -it opencrypter-php vendor/bin/phpunit
+  - docker exec -it opencrypter-php vendor/bin/behat
