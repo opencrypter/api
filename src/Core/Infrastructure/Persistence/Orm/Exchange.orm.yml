@@ -8,6 +8,10 @@ Core\Domain\Exchange\Exchange:
   fields:
     name:
       type: name
+    symbols:
+      type: symbols
+      options:
+        jsonb: true
     createdAt:
       type: created_at
     updatedAt:

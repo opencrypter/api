@@ -11,7 +11,8 @@ class ExchangeDtoAssembler
     {
         return new ExchangeDto(
             $exchange->id()->value(),
-            $exchange->name()->value()
+            $exchange->name()->value(),
+            $exchange->symbols()->toArray()
         );
     }
 }

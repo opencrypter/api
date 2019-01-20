@@ -9,7 +9,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 final class GetAllAvailableExchangesController extends Controller
 {
-    public function run()
+    public function __invoke(): JsonResponse
     {
         return new JsonResponse(
             $this->serialize($this->queryBus()->handle(new GetAllAvailableExchanges))

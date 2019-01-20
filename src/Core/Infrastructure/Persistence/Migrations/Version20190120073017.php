@@ -28,6 +28,7 @@ final class Version20190120073017 extends AbstractMigration
         $this->addSql('CREATE TABLE exchange (
               id UUID NOT NULL, 
               name VARCHAR(255) NOT NULL, 
+              symbols JSONB NOT NULL,
               created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, 
               updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, 
               PRIMARY KEY(id)
@@ -35,6 +36,7 @@ final class Version20190120073017 extends AbstractMigration
 
         $this->addSql('COMMENT ON COLUMN exchange.id IS \'(DC2Type:exchange_id)\'');
         $this->addSql('COMMENT ON COLUMN exchange.name IS \'(DC2Type:name)\'');
+        $this->addSql('COMMENT ON COLUMN exchange.symbols IS \'(DC2Type:symbols)\'');
         $this->addSql('COMMENT ON COLUMN exchange.created_at IS \'(DC2Type:created_at)\'');
         $this->addSql('COMMENT ON COLUMN exchange.updated_at IS \'(DC2Type:updated_at)\'');
     }

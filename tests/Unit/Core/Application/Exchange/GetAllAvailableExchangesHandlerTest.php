@@ -31,7 +31,7 @@ class GetAllAvailableExchangesHandlerTest extends TestCase
     {
         $exchange = ExchangeFactory::random();
 
-        $this->mockedRepository->shouldAll([$exchange]);
+        $this->mockedRepository->shouldFindAll([$exchange]);
 
         self::assertEquals(
             [$this->assembler->writeDto($exchange)],

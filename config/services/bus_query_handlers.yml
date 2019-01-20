@@ -8,3 +8,4 @@ services:
 
 
   Core\Application\Exchange\GetAllAvailableExchangesHandler: ~
+  Core\Application\Exchange\GetExchangeDetailHandler: ~
