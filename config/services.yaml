@@ -1,0 +1,38 @@
+parameters:
+    locale: 'en'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # ------------------------
+  # Application services    |
+  # ------------------------
+  Core\Application\Exchange\ExchangeDtoAssembler: ~
+
+
+  # ------------------------
+  # Domain services         |
+  # ------------------------
+  Core\Domain\Exchange\ExchangeRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository'
+
+
+  # ------------------------
+  # Infrastructure services |
+  # ------------------------
+  Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository: ~
+
+
+  # ------------------------
+  # Ui services             |
+  # ------------------------
+  Core\Ui\Http\:
+    resource: '../src/Core/Ui/Http'
+    tags: ['controller.service_arguments']
+
+  Core\Ui\Http\Controller:
+    abstract: true
+    arguments:
+      - '@tactician.commandbus.query'
+      - '@tactician.commandbus.command'

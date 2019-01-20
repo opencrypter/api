@@ -1,4 +1,7 @@
 {
+    "behat/behat": {
+        "version": "v3.5.0"
+    },
     "behat/gherkin": {
         "version": "v4.5.1"
     },
@@ -20,8 +23,14 @@
             "ref": "ff944fc5f8dc1d1c9602968c2c12646c557adbbc"
         }
     },
+    "behat/transliterator": {
+        "version": "v1.2.0"
+    },
     "behatch/contexts": {
         "version": "3.2.0"
+    },
+    "container-interop/container-interop": {
+        "version": "1.2.0"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -242,6 +251,9 @@
     "symfony/cache": {
         "version": "v4.2.1"
     },
+    "symfony/class-loader": {
+        "version": "v3.4.21"
+    },
     "symfony/config": {
         "version": "v4.2.1"
     },
@@ -334,6 +346,15 @@
     },
     "symfony/stopwatch": {
         "version": "v4.2.2"
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "1fb02a6e1c8f3d4232cce485c9afa868d63b115a"
+        }
     },
     "symfony/var-exporter": {
         "version": "v4.2.1"
