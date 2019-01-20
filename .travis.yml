@@ -8,8 +8,9 @@ services:
 
 install:
   - composer install
+  - docker-compose up -d
+  - docker exec -it opencrypter-php doctrine:database:create
 
 script:
-  - docker-compose up -d
   - docker exec -it opencrypter-php vendor/bin/phpunit
   - docker exec -it opencrypter-php vendor/bin/behat
