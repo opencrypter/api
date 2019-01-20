@@ -10,7 +10,7 @@ install:
   - composer install
 
 script:
-  - docker-compose up -d
+  - docker-compose run start_dependencies
   - docker exec -it opencrypter-php bin/console doctrine:schema:update --force
   - docker exec -it opencrypter-php vendor/bin/phpunit
   - docker exec -it opencrypter-php vendor/bin/behat
