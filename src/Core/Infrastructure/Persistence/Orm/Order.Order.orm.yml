@@ -1,0 +1,13 @@
+Core\Domain\Order\Order:
+  type: entity
+  table: order
+
+  id:
+    id:
+      type: order_id
+
+  oneToMany:
+    steps:
+      targetEntity: Core\Domain\Order\OrderStep
+      mappedBy: order
+      cascade: ["persist", "merge"]

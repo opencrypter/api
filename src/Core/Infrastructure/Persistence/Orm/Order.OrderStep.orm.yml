@@ -1,0 +1,26 @@
+Core\Domain\Order\OrderStep:
+  type: entity
+  table: order_step
+
+  id:
+    id:
+      type: order_step_id
+  fields:
+    type:
+      type: order_step_type
+    symbol:
+      type: symbol
+    value:
+      type: order_value
+    createdAt:
+      type: created_at
+    executedAt:
+      type: executed_at
+      nullable: true
+
+  manyToOne:
+    order:
+      targetEntity: Core\Domain\Order\Order
+      inversedBy: steps
+      joinColumn:
+        nullable: false
