@@ -23,6 +23,9 @@ services:
   # ------------------------
   Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository: ~
 
+  Core\Infrastructure\EventListener\ExceptionListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception }
 
   # ------------------------
   # Ui services             |

@@ -16,7 +16,8 @@ class ExchangeDtoAssemblerTest extends TestCase
 
         $expected = new ExchangeDto(
             $exchange->id()->value(),
-            $exchange->name()->value()
+            $exchange->name()->value(),
+            $exchange->symbols()->toArray()
         );
 
         self::assertEquals($expected, (new ExchangeDtoAssembler)->writeDto($exchange));

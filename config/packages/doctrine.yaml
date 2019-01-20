@@ -16,6 +16,7 @@ doctrine:
             created_at: Core\Infrastructure\Persistence\Type\DoctrineCreatedAt
             updated_at: Core\Infrastructure\Persistence\Type\DoctrineUpdatedAt
             exchange_id: Core\Infrastructure\Persistence\Type\DoctrineExchangeId
+            symbols: Core\Infrastructure\Persistence\Type\DoctrineSymbols
             name: Core\Infrastructure\Persistence\Type\DoctrineName
     orm:
         auto_generate_proxy_classes: true

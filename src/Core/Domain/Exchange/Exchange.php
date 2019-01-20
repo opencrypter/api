@@ -21,6 +21,11 @@ final class Exchange implements Entity
     private $name;
 
     /**
+     * @var Symbols
+     */
+    private $symbols;
+
+    /**
      * @var CreatedAt
      */
     private $createdAt;
@@ -35,11 +40,13 @@ final class Exchange implements Entity
      *
      * @param ExchangeId $id
      * @param Name       $name
+     * @param Symbols    $symbols
      */
-    public function __construct(ExchangeId $id, Name $name)
+    public function __construct(ExchangeId $id, Name $name, Symbols $symbols)
     {
         $this->id        = $id;
         $this->name      = $name;
+        $this->symbols   = $symbols;
         $this->createdAt = CreatedAt::now();
     }
 
@@ -57,5 +64,13 @@ final class Exchange implements Entity
     public function name(): Name
     {
         return $this->name;
+    }
+
+    /**
+     * @return Symbols
+     */
+    public function symbols(): Symbols
+    {
+        return $this->symbols;
     }
 }

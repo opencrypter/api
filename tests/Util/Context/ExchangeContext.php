@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Util\Context;
 
+use Behat\Gherkin\Node\TableNode;
 use Tests\Util\Factory\ExchangeFactory;
 use Behat\Behat\Context\Context;
 use Core\Domain\Exchange\ExchangeRepository;
@@ -25,14 +26,18 @@ class ExchangeContext implements Context
     }
 
     /**
-     * @Given /^(?P<numberOfExchanges>\d+) random exchanges in repository$/
+     * @Given the following exchanges:
      *
-     * @param int $numberOfExchanges
+     * @param TableNode $exchanges
      */
-    public function nRandomExchangesInRepository(int $numberOfExchanges): void
+    public function exchangeInRepository(TableNode $exchanges): void
     {
-        for ($i = 0; $i < $numberOfExchanges; $i++) {
-            $this->repository->save(ExchangeFactory::random());
+        foreach ($exchanges->getHash() as $exchange) {
+            $this->repository->save(ExchangeFactory::create(
+                $exchange['id'],
+                $exchange['name'],
+                \json_decode($exchange['symbols'], true)
+            ));
         }
     }
 }

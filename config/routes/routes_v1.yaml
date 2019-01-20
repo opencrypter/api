@@ -1,4 +1,9 @@
 all_exchanges:
     path: /v1/exchanges
     methods: [GET]
-    controller: Core\Ui\Http\GetAllAvailableExchangesController::run
+    controller: Core\Ui\Http\GetAllAvailableExchangesController::__invoke
+
+exchange_detail:
+    path: /v1/exchanges/{exchangeId}
+    methods: [GET]
+    controller: Core\Ui\Http\GetExchangeDetailController::__invoke

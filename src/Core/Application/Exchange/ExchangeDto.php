@@ -16,15 +16,22 @@ class ExchangeDto
     private $name;
 
     /**
+     * @var array
+     */
+    private $symbols;
+
+    /**
      * ExchangeDto constructor.
      *
      * @param string $id
      * @param string $name
+     * @param array  $symbols
      */
-    public function __construct(string $id, string $name)
+    public function __construct(string $id, string $name, array $symbols)
     {
-        $this->id   = $id;
-        $this->name = $name;
+        $this->id      = $id;
+        $this->name    = $name;
+        $this->symbols = $symbols;
     }
 
     /**
@@ -41,5 +48,13 @@ class ExchangeDto
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSymbols(): array
+    {
+        return $this->symbols;
     }
 }
