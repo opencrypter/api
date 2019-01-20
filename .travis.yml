@@ -11,6 +11,6 @@ install:
   - docker-compose up -d
 
 script:
-  - docker exec -it opencrypter-php bin/console doctrine:database:create
+  - docker exec -it opencrypter-php bin/console doctrine:schema:update --force
   - docker exec -it opencrypter-php vendor/bin/phpunit
   - docker exec -it opencrypter-php vendor/bin/behat
