@@ -17,6 +17,7 @@ services:
     container_name: opencrypter-php
     depends_on:
       - "db"
+      - "server"
     ports:
       - "9000:9000"
     volumes:
@@ -25,22 +26,25 @@ services:
       - "opencrypter.dev:127.0.0.1"
     networks:
       - opencrypter
-    command: >
-      /bin/sh -c "
-        while ! nc -z web 5432;
-        do
-          echo sleeping;
-          sleep 1;
-        done;
-        echo Connected!;
-      "
-  nginx:
+  server:
     build: ./docker/nginx
-    container_name: opencrypter-nginx
+    container_name: opencrypter-server
+    restart: always
     ports:
       - "8080:80"
     volumes:
       - ./logs/nginx/:/var/log/nginx:cached
+    networks:
+      - opencrypter
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - 'server'
+      - 'db'
+      - 'php'
+    command: db:5432 server:80
+    environment:
+      SLEEP_LENGTH: 0.5
     networks:
       - opencrypter
 networks:
