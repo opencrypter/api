@@ -43,7 +43,7 @@ class CreateOrderHandler
      * @throws \Core\Domain\Order\Step\InvalidType
      * @throws DuplicatedOrder
      */
-    public function handle(CreateOrder $command): OrderDto
+    public function __invoke(CreateOrder $command): OrderDto
     {
         $orderId = new OrderId($command->id());
 

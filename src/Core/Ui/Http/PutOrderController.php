@@ -14,7 +14,7 @@ class PutOrderController extends Controller
     {
         $body = json_decode($request->getContent(), true);
 
-        $order = $this->commandBus()->handle(new CreateOrder($id, $body['steps']));
+        $order = $this->handleCommand(new CreateOrder($id, $body['steps']));
 
         return new JsonResponse($this->serialize($order), Response::HTTP_CREATED);
     }

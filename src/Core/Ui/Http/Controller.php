@@ -3,18 +3,19 @@ declare(strict_types=1);
 
 namespace Core\Ui\Http;
 
-use League\Tactician\CommandBus;
+use Symfony\Component\Messenger\MessageBus;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class Controller
 {
     /**
-     * @var CommandBus
+     * @var MessageBus
      */
     private $queryBus;
 
     /**
-     * @var CommandBus
+     * @var MessageBus
      */
     private $commandBus;
 
@@ -23,7 +24,7 @@ abstract class Controller
      */
     private $serializer;
 
-    public function __construct(CommandBus $queryBus, CommandBus $commandBus, SerializerInterface $serializer)
+    public function __construct(MessageBus $queryBus, MessageBus $commandBus, SerializerInterface $serializer)
     {
         $this->queryBus   = $queryBus;
         $this->commandBus = $commandBus;
@@ -31,19 +32,37 @@ abstract class Controller
     }
 
     /**
-     * @return CommandBus
+     * @param mixed $query
+     * @return mixed
      */
-    protected function queryBus(): CommandBus
+    protected function handleQuery($query)
     {
-        return $this->queryBus;
+        return $this->handleMessage($this->queryBus, $query);
     }
 
     /**
-     * @return CommandBus
+     * @param mixed $command
+     * @return object
      */
-    protected function commandBus(): CommandBus
+    protected function handleCommand($command)
     {
-        return $this->commandBus;
+        return $this->handleMessage($this->commandBus, $command);
+    }
+
+    /**
+     * @param MessageBus $bus
+     * @param mixed      $message
+     *
+     * @return mixed
+     */
+    private function handleMessage(MessageBus $bus, $message)
+    {
+        $envelope = $bus->dispatch($message);
+
+        /** @var HandledStamp $handleStamp */
+        $handleStamp = $envelope->last(HandledStamp::class);
+
+        return $handleStamp->getResult();
     }
 
     protected function serialize($any, string $format = 'json'): array
