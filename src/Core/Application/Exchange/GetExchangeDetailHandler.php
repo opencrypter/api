@@ -36,7 +36,7 @@ class GetExchangeDetailHandler
      * @return ExchangeDto
      * @throws ExchangeNotFound
      */
-    public function handle(GetExchangeDetail $query): ExchangeDto
+    public function __invoke(GetExchangeDetail $query): ExchangeDto
     {
         $exchangeId = new ExchangeId($query->exchangeId());
 

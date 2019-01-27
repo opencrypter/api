@@ -56,7 +56,7 @@ class CreateOrderHandlerTest extends TestCase
             ->shouldFindOrderOfId($expectedOrder->id(), null)
             ->shouldSave($expectedOrder);
 
-        $order = $this->handler->handle(new CreateOrder(
+        $order = $this->handler->__invoke(new CreateOrder(
             $expectedOrder->id()->value(),
             $steps
         ));
@@ -76,6 +76,6 @@ class CreateOrderHandlerTest extends TestCase
         $this->orderRepositoryMock
             ->shouldFindOrderOfId($order->id(), $order);
 
-        $this->handler->handle(new CreateOrder($order->id()->value(), []));
+        $this->handler->__invoke(new CreateOrder($order->id()->value(), []));
     }
 }

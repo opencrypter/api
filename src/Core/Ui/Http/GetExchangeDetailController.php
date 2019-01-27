@@ -10,8 +10,8 @@ final class GetExchangeDetailController extends Controller
 {
     public function __invoke(string $exchangeId): JsonResponse
     {
-        return new JsonResponse(
-            $this->serialize($this->queryBus()->handle(new GetExchangeDetail($exchangeId)))
-        );
+        $exchange = $this->handleQuery(new GetExchangeDetail($exchangeId));
+
+        return new JsonResponse($this->serialize($exchange));
     }
 }

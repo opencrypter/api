@@ -36,7 +36,7 @@ class GetExchangeDetailHandlerTest extends TestCase
 
         self::assertEquals(
             $this->assembler->writeDto($exchange),
-            $this->handler->handle(new GetExchangeDetail($exchange->id()->value()))
+            $this->handler->__invoke(new GetExchangeDetail($exchange->id()->value()))
         );
     }
 
@@ -50,6 +50,6 @@ class GetExchangeDetailHandlerTest extends TestCase
         $exchange = ExchangeFactory::random();
         $this->mockedRepository->shouldFindExchangeOfId($exchange->id(), null);
 
-        $this->handler->handle(new GetExchangeDetail($exchange->id()->value()));
+        $this->handler->__invoke(new GetExchangeDetail($exchange->id()->value()));
     }
 }

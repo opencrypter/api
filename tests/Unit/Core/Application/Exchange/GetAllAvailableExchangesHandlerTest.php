@@ -35,7 +35,7 @@ class GetAllAvailableExchangesHandlerTest extends TestCase
 
         self::assertEquals(
             [$this->assembler->writeDto($exchange)],
-            $this->handler->handle(new GetAllAvailableExchanges())
+            $this->handler->__invoke(new GetAllAvailableExchanges())
         );
     }
 }

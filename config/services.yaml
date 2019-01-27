@@ -5,6 +5,9 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+    bind:
+      $queryBus:   '@messenger.bus.query'
+      $commandBus: '@messenger.bus.command'
 
   # ┌─────────────────────────┐
   # │ Application services    │
@@ -37,8 +40,3 @@ services:
     resource: '../src/Core/Ui/Http'
     tags: ['controller.service_arguments']
 
-  Core\Ui\Http\Controller:
-    abstract: true
-    arguments:
-      $queryBus: '@tactician.commandbus.query'
-      $commandBus: '@tactician.commandbus.command'

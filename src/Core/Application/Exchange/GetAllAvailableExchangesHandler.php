@@ -30,7 +30,7 @@ class GetAllAvailableExchangesHandler
         $this->dtoAssembler = $dtoAssembler;
     }
 
-    public function handle(GetAllAvailableExchanges $query): array
+    public function __invoke(GetAllAvailableExchanges $query): array
     {
         $exchanges = $this->repository->all();
 

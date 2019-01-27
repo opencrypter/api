@@ -11,8 +11,8 @@ final class GetAllAvailableExchangesController extends Controller
 {
     public function __invoke(): JsonResponse
     {
-        return new JsonResponse(
-            $this->serialize($this->queryBus()->handle(new GetAllAvailableExchanges))
-        );
+        $exchanges = $this->handleQuery(new GetAllAvailableExchanges);
+
+        return new JsonResponse($this->serialize($exchanges));
     }
 }
