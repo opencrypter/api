@@ -6,6 +6,8 @@ default:
             contexts:
                 - Tests\Util\Context\ExchangeContext:
                       repository: '@Core\Domain\Exchange\ExchangeRepository'
+                - Tests\Util\Context\OrderContext:
+                      repository: '@Core\Domain\Order\OrderRepository'
                 - Tests\Util\Context\FeatureContext:
                     manager: '@doctrine.orm.entity_manager'
                 - Behat\MinkExtension\Context\MinkContext: ~

@@ -17,7 +17,13 @@ doctrine:
             updated_at: Core\Infrastructure\Persistence\Type\DoctrineUpdatedAt
             exchange_id: Core\Infrastructure\Persistence\Type\DoctrineExchangeId
             symbols: Core\Infrastructure\Persistence\Type\DoctrineSymbols
+            symbol: Core\Infrastructure\Persistence\Type\DoctrineSymbol
             name: Core\Infrastructure\Persistence\Type\DoctrineName
+            order_id: Core\Infrastructure\Persistence\Type\DoctrineOrderId
+            position: Core\Infrastructure\Persistence\Type\DoctrinePosition
+            order_step_type: Core\Infrastructure\Persistence\Type\DoctrineStepType
+            value: Core\Infrastructure\Persistence\Type\DoctrineValue
+            executed_at: Core\Infrastructure\Persistence\Type\DoctrineExecutedAt
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -27,6 +33,6 @@ doctrine:
                 is_bundle: false
                 type: yml
                 dir: '%kernel.project_dir%/src/Core/Infrastructure/Persistence/Orm'
-                prefix: 'Core\Domain\Exchange'
+                prefix: 'Core\Domain'
                 alias: Domain
 

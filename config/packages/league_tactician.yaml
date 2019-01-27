@@ -3,7 +3,7 @@ tactician:
     commandbus:
         query:
             middleware:
-                - tactician.middleware.command_handler
+                - tactician.commandbus.query.middleware.command_handler
         command:
             middleware:
-                - tactician.middleware.command_handler
+                - tactician.commandbus.command.middleware.command_handler
