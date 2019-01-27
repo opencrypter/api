@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Core\Infrastructure\Persistence\Type;
 
-use Core\Domain\Order\OrderStepType;
+use Core\Domain\Order\Step\Type;
 use Core\Domain\ValueObject;
 use Core\Infrastructure\Persistence\Type\Scalar\DoctrineString;
 
@@ -25,6 +25,6 @@ class DoctrineStepType extends DoctrineString
      */
     protected function newInstance(string $value): ValueObject
     {
-        return new OrderStepType($value);
+        return new Type($value);
     }
 }

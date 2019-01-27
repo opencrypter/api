@@ -5,8 +5,8 @@ namespace Tests\Unit\Core\Application\Exchange;
 
 use Core\Application\Exchange\ExchangeDto;
 use Core\Application\Exchange\ExchangeDtoAssembler;
+use Tests\Unit\TestCase;
 use Tests\Util\Factory\ExchangeFactory;
-use PHPUnit\Framework\TestCase;
 
 class ExchangeDtoAssemblerTest extends TestCase
 {

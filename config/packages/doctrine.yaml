@@ -20,9 +20,9 @@ doctrine:
             symbol: Core\Infrastructure\Persistence\Type\DoctrineSymbol
             name: Core\Infrastructure\Persistence\Type\DoctrineName
             order_id: Core\Infrastructure\Persistence\Type\DoctrineOrderId
-            order_step_id: Core\Infrastructure\Persistence\Type\DoctrineOrderStepId
+            position: Core\Infrastructure\Persistence\Type\DoctrinePosition
             order_step_type: Core\Infrastructure\Persistence\Type\DoctrineStepType
-            order_value: Core\Infrastructure\Persistence\Type\DoctrineOrderValue
+            value: Core\Infrastructure\Persistence\Type\DoctrineValue
             executed_at: Core\Infrastructure\Persistence\Type\DoctrineExecutedAt
     orm:
         auto_generate_proxy_classes: true

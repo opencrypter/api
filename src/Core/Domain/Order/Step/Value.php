@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Domain\Order;
+namespace Core\Domain\Order\Step;
 
 use Core\Domain\ValueObject;
 
-class OrderValue implements ValueObject
+class Value implements ValueObject
 {
     /**
      * @var float

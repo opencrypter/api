@@ -8,7 +8,7 @@ use Core\Application\Exchange\GetExchangeDetail;
 use Core\Application\Exchange\GetExchangeDetailHandler;
 use Core\Domain\Exchange\ExchangeNotFound;
 use Core\Domain\Exchange\ExchangeRepository;
-use PHPUnit\Framework\TestCase;
+use Tests\Unit\TestCase;
 use Tests\Util\Factory\ExchangeFactory;
 use Tests\Util\Mock\ExchangeRepositoryMock;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Core\Infrastructure\Persistence\Type;
 
 use Core\Domain\DateTime;
-use Core\Domain\Order\ExecutedAt;
+use Core\Domain\Order\Step\ExecutedAt;
 use Core\Infrastructure\Persistence\Type\Scalar\DoctrineDateTime;
 
 final class DoctrineExecutedAt extends DoctrineDateTime

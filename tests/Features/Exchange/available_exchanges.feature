@@ -1,4 +1,4 @@
-Feature:
+Feature: Get available exchanges
   In order to know what exchanges are available
   As a client
   I want to see all of them

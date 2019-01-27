@@ -1,17 +1,20 @@
-Core\Domain\Order\OrderStep:
+Core\Domain\Order\Step\Step:
   type: entity
   table: order_step
 
   id:
-    id:
-      type: order_step_id
+    order:
+      associationKey: true
+    position:
+      type: position
+
   fields:
     type:
       type: order_step_type
     symbol:
       type: symbol
     value:
-      type: order_value
+      type: value
     createdAt:
       type: created_at
     executedAt:

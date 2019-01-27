@@ -1,4 +1,4 @@
-Feature:
+Feature: Get the detail of an exchange
   In order to know all details about an exchange
   As a client
   I want to see the data of a specific exchange

@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Core\Infrastructure\Persistence\Type;
 
-use Core\Domain\Order\OrderValue;
+use Core\Domain\Order\Step\Value;
 use Core\Domain\ValueObject;
 use Core\Infrastructure\Persistence\Type\Scalar\DoctrineFloat;
 
-class DoctrineOrderValue extends DoctrineFloat
+class DoctrineValue extends DoctrineFloat
 {
-    public const NAME = 'order_value';
+    public const NAME = 'value';
 
     /**
      * @return string
@@ -25,6 +25,6 @@ class DoctrineOrderValue extends DoctrineFloat
      */
     protected function newInstance(float $value): ValueObject
     {
-        return new OrderValue($value);
+        return new Value($value);
     }
 }

@@ -7,3 +7,8 @@ exchange_detail:
     path: /v1/exchanges/{exchangeId}
     methods: [GET]
     controller: Core\Ui\Http\GetExchangeDetailController::__invoke
+
+orders_put:
+    path: /v1/orders/{id}
+    methods: [PUT]
+    controller: Core\Ui\Http\PutOrderController::__invoke

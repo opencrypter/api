@@ -9,7 +9,7 @@ use Core\Application\Exchange\GetAllAvailableExchangesHandler;
 use Core\Domain\Exchange\ExchangeRepository;
 use Tests\Util\Factory\ExchangeFactory;
 use Tests\Util\Mock\ExchangeRepositoryMock;
-use PHPUnit\Framework\TestCase;
+use Tests\Unit\TestCase;
 
 class GetAllAvailableExchangesHandlerTest extends TestCase
 {
