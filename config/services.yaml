@@ -8,6 +8,7 @@ services:
     bind:
       $queryBus:   '@messenger.bus.query'
       $commandBus: '@messenger.bus.command'
+      $passwordEncoder: '@security.password_encoder'
 
   # ┌─────────────────────────┐
   # │ Application services    │
@@ -19,6 +20,8 @@ services:
   # ┌─────────────────────────┐
   # │ Domain services         │
   # └─────────────────────────┘
+  Core\Domain\User\UserFactory: '@Core\Infrastructure\Factory\UserFactory'
+  Core\Domain\User\UserRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineUserRepository'
   Core\Domain\Exchange\ExchangeRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository'
   Core\Domain\Order\OrderRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineOrderRepository'
 
@@ -29,8 +32,13 @@ services:
   Core\Infrastructure\Persistence\Repository\:
     resource: '../src/Core/Infrastructure/Persistence/Repository'
 
+  Core\Infrastructure\Factory\UserFactory: ~
+
   Core\Infrastructure\EventListener\ExceptionListener:
     tags: [{ name: kernel.event_listener, event: kernel.exception }]
+
+  Core\Infrastructure\Security\JwtEventListener:
+    tags: [{ name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: handle  }]
 
 
   # ┌─────────────────────────┐

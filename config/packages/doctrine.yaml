@@ -15,6 +15,7 @@ doctrine:
         types:
             created_at: Core\Infrastructure\Persistence\Type\DoctrineCreatedAt
             updated_at: Core\Infrastructure\Persistence\Type\DoctrineUpdatedAt
+            user_id: Core\Infrastructure\Persistence\Type\DoctrineUserId
             exchange_id: Core\Infrastructure\Persistence\Type\DoctrineExchangeId
             symbols: Core\Infrastructure\Persistence\Type\DoctrineSymbols
             symbol: Core\Infrastructure\Persistence\Type\DoctrineSymbol
@@ -35,4 +36,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Core/Infrastructure/Persistence/Orm'
                 prefix: 'Core\Domain'
                 alias: Domain
-
+            Security:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Core/Infrastructure/Security'
+                prefix: 'Core\Infrastructure\Security'
+                alias: Security

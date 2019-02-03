@@ -1,0 +1,21 @@
+Core\Domain\User\User:
+  type: entity
+  table: '"user"'
+
+  id:
+    id:
+      type: user_id
+  fields:
+    updatedAt:
+      type: created_at
+      nullable: true
+    createdAt:
+      type: created_at
+
+  oneToOne:
+    credentials:
+      targetEntity: Core\Infrastructure\Security\UserCredentials
+      joinColumn:
+        name: user_credentials_id
+        referencedColumnName: id
+      cascade: ["persist", "merge"]

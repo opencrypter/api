@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Core\Domain\Exchange;
 
 use Core\Domain\CreatedAt;
-use Core\Domain\RootAggregate;
+use Core\Domain\AggregateRoot;
 use Core\Domain\UpdatedAt;
 
-final class Exchange implements RootAggregate
+final class Exchange implements AggregateRoot
 {
     /**
      * @var ExchangeId

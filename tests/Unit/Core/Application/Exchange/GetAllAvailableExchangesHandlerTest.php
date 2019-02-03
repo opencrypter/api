@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Core\Application\Exchange;
+namespace Tests\Core\Application\Exchange;
 
 use Core\Application\Exchange\ExchangeDtoAssembler;
 use Core\Application\Exchange\GetAllAvailableExchanges;

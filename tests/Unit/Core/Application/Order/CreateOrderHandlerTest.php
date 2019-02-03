@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Core\Application\Order;
+namespace Tests\Core\Application\Order;
 
 use Core\Application\Order\CreateOrder;
 use Core\Application\Order\CreateOrderHandler;

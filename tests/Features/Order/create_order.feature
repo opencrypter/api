@@ -8,7 +8,8 @@ Feature: Create an order
       | id                                    | name      | symbols               |
       | 6e7f1715-84c2-4dab-b690-969af78a063c  | Bitstamp  | ["BTCUSD", "ETHUSD"]  |
 
-  Scenario: There isn't any order with the same ID
+  @login @logout
+  Scenario: The order is new
     When I send a "PUT" request to "v1/orders/cede5a4e-2584-465a-8641-13c3dc169c17" with body:
     """
     {

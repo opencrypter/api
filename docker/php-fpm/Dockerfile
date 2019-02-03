@@ -28,7 +28,7 @@ RUN apk add --update \
     php7-pear \
     php7-dev \
     php7-zip \
-    libsodium-dev \
+    php7-sodium \
     make \
     php7-xmlwriter \
     g++ \
