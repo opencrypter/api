@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Core\Application\Exchange;
+namespace Tests\Unit\Core\Application\Exchange;
 
 use Core\Application\Exchange\ExchangeDtoAssembler;
 use Core\Application\Exchange\GetAllAvailableExchanges;
@@ -9,7 +9,7 @@ use Core\Application\Exchange\GetAllAvailableExchangesHandler;
 use Core\Domain\Exchange\ExchangeRepository;
 use Tests\Util\Factory\ExchangeFactory;
 use Tests\Util\Mock\ExchangeRepositoryMock;
-use Tests\Unit\TestCase;
+use Tests\Unit\Core\TestCase;
 
 class GetAllAvailableExchangesHandlerTest extends TestCase
 {

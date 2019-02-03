@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Core\Application\User;
+namespace Tests\Unit\Core\Application\User;
 
 use Core\Application\User\CreateUser;
 use Core\Application\User\CreateUserHandler;
@@ -9,7 +9,7 @@ use Core\Domain\User\InvalidEmail;
 use Core\Domain\User\InvalidPassword;
 use Core\Domain\User\UserRepository;
 use Symfony\Bridge\PhpUnit\ClockMock;
-use Tests\Unit\TestCase;
+use Tests\Unit\Core\TestCase;
 use Tests\Util\Dummy\UserPasswordEncoder;
 use Tests\Util\Factory\UserFactory;
 use Tests\Util\Mock\UserRepositoryMock;
@@ -17,7 +17,7 @@ use Tests\Util\Mock\UserRepositoryMock;
 /**
  * Class CreateUserHandlerTest
  *
- * @package Tests\Core\Application\User
+ * @package Tests\Unit\Core\Application\User
  */
 class CreateUserHandlerTest extends TestCase
 {
@@ -43,6 +43,7 @@ class CreateUserHandlerTest extends TestCase
         $expected = UserFactory::create($this->faker()->uuid, $this->faker()->email, $password);
 
         $this->repositoryMock
+            ->shouldFindUserOfEmail($expected->credentials()->email(), null)
             ->shouldReturnNewIdentity($expected->id())
             ->shouldSave($expected);
 
@@ -63,6 +64,7 @@ class CreateUserHandlerTest extends TestCase
      * @param string $email
      * @param string $password
      * @param string $exception
+     * @throws \Core\Application\User\DuplicatedUser
      */
     public function testExceptionWhenReceivesInvalidValues(string $email, string $password, string $exception): void
     {

@@ -21,7 +21,7 @@ class DoctrineUserRepository extends DoctrineRepository implements UserRepositor
         return new UserId($this->newGuid());
     }
 
-    public function userOfUsername(Email $email) : ?User
+    public function userOfEmail(Email $email) : ?User
     {
         return $this->repository()
             ->createQueryBuilder('user')

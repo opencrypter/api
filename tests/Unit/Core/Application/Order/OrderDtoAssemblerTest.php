@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Core\Application\Exchange;
+namespace Tests\Unit\Core\Application\Exchange;
 
 use Core\Application\Order\OrderDto;
 use Core\Application\Order\OrderDtoAssembler;

@@ -37,7 +37,7 @@ class CreateUserHandler
         $email    = new Email($command->username());
         $password = new PlainPassword($command->password());
 
-        if ($this->repository->userOfUsername($email)) {
+        if ($this->repository->userOfEmail($email)) {
             throw new DuplicatedUser($email);
         }
         $user = $this->userFactory->create($this->repository->newIdentity(), $email, $password);

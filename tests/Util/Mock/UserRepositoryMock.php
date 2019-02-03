@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Util\Mock;
 
+use Core\Domain\User\Email;
 use Core\Domain\User\User;
 use Core\Domain\User\UserId;
 use Core\Domain\User\UserRepository;
@@ -22,10 +23,10 @@ final class UserRepositoryMock extends Mock
         return $this;
     }
 
-    public function shouldFindUserOfId(UserId $userId, ?User $expected): self
+    public function shouldFindUserOfEmail(string $email, ?User $expected): self
     {
         $this->prophecy()
-            ->userOfId($userId)
+            ->userOfEmail(new Email($email))
             ->willReturn($expected)
             ->shouldBeCalledOnce();
 

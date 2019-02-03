@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Core\Domain\Exchange;
+namespace Tests\Unit\Core\Domain\Exchange;
 
 use Core\Domain\Exchange\InvalidName;
 use Core\Domain\Exchange\Name;

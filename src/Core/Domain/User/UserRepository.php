@@ -7,7 +7,7 @@ interface UserRepository
 {
     public function newIdentity(): UserId;
 
-    public function userOfUsername(Email $email): ?User;
+    public function userOfEmail(Email $email): ?User;
 
     public function save(User $user): void;
 }

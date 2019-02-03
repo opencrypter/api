@@ -32,8 +32,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Core": "tests/Unit/Core",
-            "Tests\\Unit\\Util": "tests/Unit/Util"
+            "Tests\\": "tests/"
         }
     },
     "replace": {
