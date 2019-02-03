@@ -1,3 +1,11 @@
+api_login:
+    path: /authenticate
+
+api_register:
+    path: /register
+    methods: [POST]
+    controller: Core\Ui\Http\RegisterUserController::__invoke
+
 all_exchanges:
     path: /v1/exchanges
     methods: [GET]

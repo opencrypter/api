@@ -5,7 +5,7 @@ namespace Tests\Unit\Core\Application\Exchange;
 
 use Core\Application\Exchange\ExchangeDto;
 use Core\Application\Exchange\ExchangeDtoAssembler;
-use Tests\Unit\TestCase;
+use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\ExchangeFactory;
 
 class ExchangeDtoAssemblerTest extends TestCase

@@ -1,0 +1,43 @@
+security:
+    providers:
+        jwt_user_provider:
+            lexik_jwt:
+                class: Core\Infrastructure\Security\UserCredentials
+        entity_user_provider:
+            entity:
+                class: Core\Infrastructure\Security\UserCredentials
+                property: email
+
+    encoders:
+        Core\Infrastructure\Security\UserCredentials:
+            algorithm: argon2i
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        authenticate:
+            pattern:  ^/authenticate
+            stateless: true
+            anonymous: true
+            provider: entity_user_provider
+            json_login:
+                check_path:               /authenticate
+                username_path:            email
+                password_path:            password
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+        main:
+            pattern: ^/
+            provider: jwt_user_provider
+            stateless: true
+            anonymous: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+    access_control:
+        - { path: ^/authenticate,   roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/,               roles: IS_AUTHENTICATED_FULLY }

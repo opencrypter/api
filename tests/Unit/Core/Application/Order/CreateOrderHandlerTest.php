@@ -8,7 +8,7 @@ use Core\Application\Order\CreateOrderHandler;
 use Core\Application\Order\DuplicatedOrder;
 use Core\Application\Order\OrderDtoAssembler;
 use Core\Domain\Order\OrderRepository;
-use Tests\Unit\TestCase;
+use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\OrderFactory;
 use Tests\Util\Factory\StepFactory;
 use Tests\Util\Mock\OrderRepositoryMock;

@@ -9,7 +9,7 @@ use Core\Application\Exchange\GetAllAvailableExchangesHandler;
 use Core\Domain\Exchange\ExchangeRepository;
 use Tests\Util\Factory\ExchangeFactory;
 use Tests\Util\Mock\ExchangeRepositoryMock;
-use Tests\Unit\TestCase;
+use Tests\Unit\Core\TestCase;
 
 class GetAllAvailableExchangesHandlerTest extends TestCase
 {

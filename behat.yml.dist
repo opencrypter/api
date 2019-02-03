@@ -10,6 +10,8 @@ default:
                       repository: '@Core\Domain\Order\OrderRepository'
                 - Tests\Util\Context\FeatureContext:
                     manager: '@doctrine.orm.entity_manager'
+                - Tests\Util\Context\SecurityContext: ~
+
                 - Behat\MinkExtension\Context\MinkContext: ~
                 - behatch:context:json
                 - behatch:context:rest

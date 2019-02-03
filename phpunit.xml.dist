@@ -15,6 +15,12 @@
         <!-- ###+ symfony/messenger ### -->
         <!-- MESSENGER_TRANSPORT_DSN=amqp://guest:guest@localhost:5672/%2f/messages -->
         <!-- ###- symfony/messenger ### -->
+
+        <!-- ###+ lexik/jwt-authentication-bundle ### -->
+        <env name="JWT_SECRET_KEY" value="%kernel.project_dir%/config/jwt/private.pem"/>
+        <env name="JWT_PUBLIC_KEY" value="%kernel.project_dir%/config/jwt/public.pem"/>
+        <env name="JWT_PASSPHRASE" value="20e5004dd5256ed356e9ffcb26a1d59f"/>
+        <!-- ###- lexik/jwt-authentication-bundle ### -->
     </php>
 
     <testsuites>
@@ -28,4 +34,14 @@
             <directory>src</directory>
         </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener">
+            <arguments>
+                <array>
+                    <element key="time-sensitive"><string>Core\Domain</string></element>
+                </array>
+            </arguments>
+        </listener>
+    </listeners>
 </phpunit>
