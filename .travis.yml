@@ -16,7 +16,6 @@ install:
 
 script:
   - docker-compose run start_dependencies
-  - openssl genrsa -out config/jwt/private.pem -aes256 4096
   - docker exec -it opencrypter-php bin/console doctrine:schema:update --force
   - docker exec -it opencrypter-php vendor/bin/phpunit
   - docker exec -it opencrypter-php vendor/bin/behat
