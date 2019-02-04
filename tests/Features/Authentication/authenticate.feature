@@ -13,6 +13,10 @@ Feature: User authentication
       "password": "myPassword100!"
     }
     """
-    Then the JSON node "token" should exist
-
-
+    Then the JSON should be valid according to this schema:
+    """
+    {
+      "token": "string",
+      "refresh_token": "string"
+    }
+    """

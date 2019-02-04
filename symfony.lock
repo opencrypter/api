@@ -113,6 +113,9 @@
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
+    "gesdinet/jwt-refresh-token-bundle": {
+        "version": "v0.5.4"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -381,6 +384,15 @@
             "branch": "master",
             "version": "3.3",
             "ref": "1fb02a6e1c8f3d4232cce485c9afa868d63b115a"
+        }
+    },
+    "symfony/validator": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "0cdc982334f45d554957a6167e030482795bf9d7"
         }
     },
     "symfony/var-exporter": {
