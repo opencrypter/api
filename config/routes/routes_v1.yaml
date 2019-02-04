@@ -1,6 +1,10 @@
 api_login:
     path: /authenticate
 
+api_refresh_token:
+    path:     /refresh-token
+    defaults: { _controller: gesdinet.jwtrefreshtoken:refresh }
+
 api_register:
     path: /register
     methods: [POST]
