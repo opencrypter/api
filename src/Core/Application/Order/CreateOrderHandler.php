@@ -8,6 +8,7 @@ use Core\Domain\Order\Order;
 use Core\Domain\Order\OrderId;
 use Core\Domain\Order\OrderRepository;
 use Core\Domain\Order\Step\Position;
+use Core\Domain\Order\Step\Step;
 use Core\Domain\Order\Step\Type;
 use Core\Domain\Order\Step\Value;
 use Core\Domain\Symbol;
@@ -39,8 +40,6 @@ class CreateOrderHandler
     /**
      * @param CreateOrder $command
      * @return OrderDto
-     * @throws \Core\Domain\Order\Step\InvalidPosition
-     * @throws \Core\Domain\Order\Step\InvalidType
      * @throws DuplicatedOrder
      */
     public function __invoke(CreateOrder $command): OrderDto
@@ -62,14 +61,11 @@ class CreateOrderHandler
      * @param CreateOrder $command
      * @param OrderId     $orderId
      * @return Order
-     * @throws \Core\Domain\Order\Step\InvalidPosition
-     * @throws \Core\Domain\Order\Step\InvalidType
      */
     private function createOrder(CreateOrder $command, OrderId $orderId): Order
     {
-        $order = new Order($orderId);
-        foreach ($command->steps() as $stepDto) {
-            $order->addStep(
+        $steps = array_map(function (StepDto $stepDto) {
+            return new Step(
                 new Position($stepDto->getPosition()),
                 new Type($stepDto->getType()),
                 new ExchangeId($stepDto->getExchangeId()),
@@ -77,7 +73,9 @@ class CreateOrderHandler
                 new Value($stepDto->getValue()),
                 $stepDto->getDependsOf() !== null ? new Position($stepDto->getDependsOf()) : null
             );
-        }
+        }, $command->steps());
+
+        $order = new Order($orderId, $steps);
 
         return $order;
     }

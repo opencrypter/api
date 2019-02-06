@@ -3,10 +3,36 @@ declare(strict_types=1);
 
 namespace Core\Domain;
 
-interface AggregateRoot
+use Core\Domain\Event\Event;
+
+abstract class AggregateRoot
 {
+    /**
+     * @var Event[]
+     */
+    private $events = [];
+
     /**
      * @return Id
      */
-    public function id();
+    abstract public function id();
+
+    /**
+     * @param Event $event
+     */
+    protected function record(Event $event): void
+    {
+        $this->events[] = $event;
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function releaseEvents(): array
+    {
+        $events = $this->events;
+        $this->events = [];
+
+        return $events;
+    }
 }

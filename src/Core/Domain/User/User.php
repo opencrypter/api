@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace Core\Domain\User;
 
+use Core\Domain\AggregateRoot;
 use Core\Domain\CreatedAt;
 use Core\Domain\UpdatedAt;
 
-class User
+class User extends AggregateRoot
 {
     /**
      * @var UserId
@@ -41,6 +42,8 @@ class User
         $this->id          = $id;
         $this->credentials = $credentials;
         $this->createdAt   = CreatedAt::now();
+
+        $this->record(UserCreated::create($this));
     }
 
     /**
@@ -57,5 +60,13 @@ class User
     public function credentials(): Credentials
     {
         return $this->credentials;
+    }
+
+    /**
+     * @return CreatedAt
+     */
+    public function createdAt(): CreatedAt
+    {
+        return $this->createdAt;
     }
 }

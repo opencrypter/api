@@ -37,4 +37,13 @@ abstract class DateTime implements ValueObject
     {
         return $this->value;
     }
+
+    /**
+     * @param string $format
+     * @return string
+     */
+    public function format(string $format = \DateTime::ATOM): string
+    {
+        return $this->value->format($format);
+    }
 }

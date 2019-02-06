@@ -1,0 +1,8 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+    tags: [{ name: messenger.message_handler, bus: messenger.bus.events }]
+
+  Core\Infrastructure\Messaging\EventBus\DomainEventHandler: ~
