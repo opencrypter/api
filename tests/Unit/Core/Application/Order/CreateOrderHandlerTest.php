@@ -50,7 +50,7 @@ class CreateOrderHandlerTest extends TestCase
             StepFactory::randomArray(),
         ];
 
-        $expectedOrder = OrderFactory::create($this->faker()->uuid, $steps);
+        $expectedOrder = OrderFactory::create($this->faker()->uuid, $this->faker()->uuid, $steps);
 
         $this->orderRepositoryMock
             ->shouldFindOrderOfId($expectedOrder->id(), null)
@@ -58,6 +58,7 @@ class CreateOrderHandlerTest extends TestCase
 
         $order = $this->handler->__invoke(new CreateOrder(
             $expectedOrder->id()->value(),
+            $expectedOrder->userId()->value(),
             $steps
         ));
 
@@ -76,6 +77,6 @@ class CreateOrderHandlerTest extends TestCase
         $this->orderRepositoryMock
             ->shouldFindOrderOfId($order->id(), $order);
 
-        $this->handler->__invoke(new CreateOrder($order->id()->value(), []));
+        $this->handler->__invoke(new CreateOrder($order->id()->value(), $order->userId()->value(), []));
     }
 }

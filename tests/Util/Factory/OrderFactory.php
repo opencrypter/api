@@ -11,11 +11,12 @@ use Core\Domain\Order\Step\Step;
 use Core\Domain\Order\Step\Type;
 use Core\Domain\Order\Step\Value;
 use Core\Domain\Symbol;
+use Core\Domain\User\UserId;
 use Faker\Factory;
 
 class OrderFactory
 {
-    public static function create(string $id, array $steps = []): Order
+    public static function create(string $id, string $userId, array $steps = []): Order
     {
         $steps = array_map(function (array $step) {
             return new Step(
@@ -28,7 +29,7 @@ class OrderFactory
             );
         }, $steps);
 
-        return new Order(new OrderId($id), $steps);
+        return new Order(new OrderId($id), new UserId($userId), $steps);
     }
 
     public static function random(): Order
@@ -40,6 +41,6 @@ class OrderFactory
             $steps[] = StepFactory::randomArray();
         }
 
-        return self::create($faker->uuid, $steps);
+        return self::create($faker->uuid, $faker->uuid, $steps);
     }
 }

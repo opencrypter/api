@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace Core\Ui\Http;
 
+use Core\Infrastructure\Security\UserCredentials;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 
 abstract class Controller
@@ -24,11 +26,29 @@ abstract class Controller
      */
     private $serializer;
 
-    public function __construct(MessageBus $queryBus, MessageBus $commandBus, SerializerInterface $serializer)
-    {
+    /**
+     * @var Security
+     */
+    private $security;
+
+    /**
+     * Controller constructor.
+     *
+     * @param MessageBus          $queryBus
+     * @param MessageBus          $commandBus
+     * @param SerializerInterface $serializer
+     * @param Security            $security
+     */
+    public function __construct(
+        MessageBus $queryBus,
+        MessageBus $commandBus,
+        SerializerInterface $serializer,
+        Security $security
+    ) {
         $this->queryBus   = $queryBus;
         $this->commandBus = $commandBus;
         $this->serializer = $serializer;
+        $this->security   = $security;
     }
 
     /**
@@ -65,10 +85,30 @@ abstract class Controller
         return $handleStamp->getResult();
     }
 
+    /**
+     * @param        $any
+     * @param string $format
+     * @return array
+     */
     protected function serialize($any, string $format = 'json'): array
     {
         $serialized = $this->serializer->serialize($any, $format);
 
         return \json_decode($serialized, true);
+    }
+
+    /**
+     * @return string
+     * @throws UserNotLogged
+     */
+    protected function currentUserId(): string
+    {
+        $user = $this->security->getUser();
+
+        if (!$user instanceof UserCredentials) {
+            throw new UserNotLogged();
+        }
+
+        return $user->getId();
     }
 }
