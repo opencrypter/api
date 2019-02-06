@@ -7,7 +7,7 @@ use Core\Domain\CreatedAt;
 use Core\Domain\AggregateRoot;
 use Core\Domain\UpdatedAt;
 
-final class Exchange implements AggregateRoot
+final class Exchange extends AggregateRoot
 {
     /**
      * @var ExchangeId
@@ -47,6 +47,8 @@ final class Exchange implements AggregateRoot
         $this->name      = $name;
         $this->symbols   = $symbols;
         $this->createdAt = CreatedAt::now();
+
+        $this->record(ExchangeCreated::create($this));
     }
 
     /**
@@ -71,5 +73,13 @@ final class Exchange implements AggregateRoot
     public function symbols(): Symbols
     {
         return $this->symbols;
+    }
+
+    /**
+     * @return CreatedAt
+     */
+    public function createdAt(): CreatedAt
+    {
+        return $this->createdAt;
     }
 }

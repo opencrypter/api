@@ -3,16 +3,12 @@ declare(strict_types=1);
 
 namespace Core\Domain\Order;
 
+use Core\Domain\AggregateRoot;
 use Core\Domain\CreatedAt;
-use Core\Domain\Exchange\ExchangeId;
-use Core\Domain\Order\Step\Position;
 use Core\Domain\Order\Step\Step;
-use Core\Domain\Order\Step\Type;
-use Core\Domain\Order\Step\Value;
-use Core\Domain\Symbol;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class Order
+class Order extends AggregateRoot
 {
     /**
      * @var OrderId
@@ -33,12 +29,24 @@ class Order
      * Order constructor.
      *
      * @param OrderId $id
+     * @param array   $steps
      */
-    public function __construct(OrderId $id)
+    public function __construct(OrderId $id, array $steps)
     {
-        $this->id        = $id;
-        $this->steps     = new ArrayCollection();
+        $this->id = $id;
+        $this->addSteps($steps);
         $this->createdAt = CreatedAt::now();
+
+        $this->record(OrderCreated::create($this));
+    }
+
+    private function addSteps(array $steps): void
+    {
+        $this->steps = new ArrayCollection();
+        foreach ($steps as $step) {
+            $step->setOrder($this);
+            $this->steps->add($step);
+        }
     }
 
     /**
@@ -57,17 +65,11 @@ class Order
         return $this->steps->toArray();
     }
 
-    public function addStep(
-        Position $position,
-        Type $type,
-        ExchangeId $exchangeId,
-        Symbol $symbol,
-        Value $value,
-        ?Position $dependsOf = null
-    ): Step {
-        $step = new Step($this, $position, $type, $exchangeId, $symbol, $value, $dependsOf);
-        $this->steps->add($step);
-
-        return $step;
+    /**
+     * @return CreatedAt
+     */
+    public function createdAt(): CreatedAt
+    {
+        return $this->createdAt;
     }
 }

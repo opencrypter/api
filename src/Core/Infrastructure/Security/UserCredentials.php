@@ -103,6 +103,11 @@ class UserCredentials implements Credentials, JWTUserInterface
         return $this->email;
     }
 
+    public function encodedPassword(): string
+    {
+        return $this->password;
+    }
+
     /**
      * Creates a new instance from a given JWT payload.
      *

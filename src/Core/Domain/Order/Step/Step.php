@@ -56,7 +56,6 @@ class Step
     private $executedAt;
 
     public function __construct(
-        Order $order,
         Position $position,
         Type $type,
         ExchangeId $exchangeId,
@@ -64,7 +63,6 @@ class Step
         Value $value,
         ?Position $dependsOf = null
     ) {
-        $this->order      = $order;
         $this->position   = $position;
         $this->type       = $type;
         $this->exchangeId = $exchangeId;
@@ -72,6 +70,14 @@ class Step
         $this->value      = $value;
         $this->dependsOf  = $dependsOf;
         $this->createdAt  = CreatedAt::now();
+    }
+
+    /**
+     * @param Order $order
+     */
+    public function setOrder(Order $order): void
+    {
+        $this->order = $order;
     }
 
     /**

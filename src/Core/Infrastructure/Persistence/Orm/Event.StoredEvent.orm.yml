@@ -1,0 +1,27 @@
+Core\Domain\Event\StoredEvent:
+  type: entity
+  table: event_store
+
+  indexes:
+    event_store_aggregate_root_id_index:
+      columns: [aggregate_root_id]
+  id:
+    id:
+      type: integer
+      column: id
+      generator:
+        strategy: AUTO
+  fields:
+    aggregateRootId:
+      type: guid
+      column: aggregate_root_id
+    type:
+      type: string
+    version:
+      type: integer
+    payload:
+      type: json
+      options:
+        jsonb: true
+    occurredOn:
+      type: datetimetz_immutable

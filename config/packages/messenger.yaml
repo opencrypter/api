@@ -11,5 +11,7 @@ framework:
             messenger.bus.command:
                 middleware:
                     - doctrine_transaction
+                    - Core\Infrastructure\Messaging\CommandBus\DomainEventsMiddleware
 
             messenger.bus.query: ~
+            messenger.bus.events: ~

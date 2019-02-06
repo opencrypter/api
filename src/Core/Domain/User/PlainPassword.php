@@ -13,10 +13,9 @@ class PlainPassword implements ValueObject
     private $value;
 
     /**
-     * Username constructor.
+     * PlainPassword constructor.
      *
      * @param string $value
-     * @throws InvalidPassword
      */
     public function __construct(string $value)
     {

@@ -6,4 +6,6 @@ namespace Core\Domain\User;
 interface Credentials
 {
     public function email(): string;
+
+    public function encodedPassword(): string;
 }

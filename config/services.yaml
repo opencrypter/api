@@ -8,6 +8,7 @@ services:
     bind:
       $queryBus:   '@messenger.bus.query'
       $commandBus: '@messenger.bus.command'
+      $eventBus: '@messenger.bus.events'
       $passwordEncoder: '@security.password_encoder'
 
   # ┌─────────────────────────┐
@@ -20,6 +21,7 @@ services:
   # ┌─────────────────────────┐
   # │ Domain services         │
   # └─────────────────────────┘
+  Core\Domain\Event\EventStore: '@Core\Infrastructure\Persistence\Repository\DoctrineEventStore'
   Core\Domain\User\UserFactory: '@Core\Infrastructure\Factory\UserFactory'
   Core\Domain\User\UserRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineUserRepository'
   Core\Domain\Exchange\ExchangeRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository'
@@ -34,11 +36,19 @@ services:
 
   Core\Infrastructure\Factory\UserFactory: ~
 
+  Core\Infrastructure\Messaging\CommandBus\DomainEventsMiddleware: ~
+
   Core\Infrastructure\EventListener\ExceptionListener:
     tags: [{ name: kernel.event_listener, event: kernel.exception }]
 
   Core\Infrastructure\Security\JwtEventListener:
     tags: [{ name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: handle  }]
+
+  Core\Infrastructure\EventListener\AggregateRootEventRecorder:
+    tags:
+      - { name: doctrine.event_listener, event: postPersist }
+      - { name: doctrine.event_listener, event: postUpdate }
+      - { name: doctrine.event_listener, event: postRemove }
 
 
   # ┌─────────────────────────┐
