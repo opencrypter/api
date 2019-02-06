@@ -11,6 +11,11 @@ class CreateOrder
     private $id;
 
     /**
+     * @var string
+     */
+    private $userId;
+
+    /**
      * @var StepDto[]
      */
     private $steps;
@@ -19,12 +24,14 @@ class CreateOrder
      * CreateOrder constructor.
      *
      * @param string $id
+     * @param string $userId
      * @param array  $steps
      */
-    public function __construct(string $id, array $steps)
+    public function __construct(string $id, string $userId, array $steps)
     {
-        $this->id    = $id;
-        $this->steps = $this->buildStepDtos($steps);
+        $this->id     = $id;
+        $this->userId = $userId;
+        $this->steps  = $this->buildStepDtos($steps);
     }
 
     /**
@@ -51,6 +58,14 @@ class CreateOrder
     public function id(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function userId(): string
+    {
+        return $this->userId;
     }
 
     /**

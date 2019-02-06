@@ -6,6 +6,8 @@ Core\Domain\Order\Order:
     id:
       type: order_id
   fields:
+    userId:
+      type: user_id
     createdAt:
       type: created_at
 

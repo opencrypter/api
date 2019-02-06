@@ -12,6 +12,7 @@ use Core\Domain\Order\Step\Step;
 use Core\Domain\Order\Step\Type;
 use Core\Domain\Order\Step\Value;
 use Core\Domain\Symbol;
+use Core\Domain\User\UserId;
 
 class CreateOrderHandler
 {
@@ -45,12 +46,14 @@ class CreateOrderHandler
     public function __invoke(CreateOrder $command): OrderDto
     {
         $orderId = new OrderId($command->id());
+        $userId  = new UserId($command->userId());
+        $steps   = $this->createSteps($command->steps());
 
         if ($this->repository->orderOfId($orderId) !== null) {
             throw new DuplicatedOrder($orderId);
         }
 
-        $order = $this->createOrder($command, $orderId);
+        $order = new Order($orderId, $userId, $steps);
 
         $this->repository->save($order);
 
@@ -58,13 +61,12 @@ class CreateOrderHandler
     }
 
     /**
-     * @param CreateOrder $command
-     * @param OrderId     $orderId
-     * @return Order
+     * @param array $stepDtos
+     * @return array
      */
-    private function createOrder(CreateOrder $command, OrderId $orderId): Order
+    private function createSteps(array $stepDtos): array
     {
-        $steps = array_map(function (StepDto $stepDto) {
+        return array_map(function (StepDto $stepDto) {
             return new Step(
                 new Position($stepDto->getPosition()),
                 new Type($stepDto->getType()),
@@ -73,10 +75,6 @@ class CreateOrderHandler
                 new Value($stepDto->getValue()),
                 $stepDto->getDependsOf() !== null ? new Position($stepDto->getDependsOf()) : null
             );
-        }, $command->steps());
-
-        $order = new Order($orderId, $steps);
-
-        return $order;
+        }, $stepDtos);
     }
 }
