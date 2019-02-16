@@ -151,4 +151,17 @@ class Step
     {
         return $this->executedAt;
     }
+
+    public function markAsExecuted(): void
+    {
+        $this->executedAt = ExecutedAt::now();
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasBeenExecuted(): bool
+    {
+        return $this->executedAt !== null;
+    }
 }

@@ -5,6 +5,7 @@ namespace Core\Domain\Order;
 
 use Core\Domain\AggregateRoot;
 use Core\Domain\CreatedAt;
+use Core\Domain\Order\Step\AnExecutedStepCannotBeRemoved;
 use Core\Domain\Order\Step\Step;
 use Core\Domain\User\UserId;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -42,13 +43,16 @@ class Order extends AggregateRoot
     {
         $this->id = $id;
         $this->userId = $userId;
-        $this->addSteps($steps);
+        $this->initializeSteps($steps);
         $this->createdAt = CreatedAt::now();
 
         $this->record(OrderCreated::create($this));
     }
 
-    private function addSteps(array $steps): void
+    /**
+     * @param Step[] $steps
+     */
+    private function initializeSteps(array $steps): void
     {
         $this->steps = new ArrayCollection();
         foreach ($steps as $step) {
@@ -74,11 +78,42 @@ class Order extends AggregateRoot
     }
 
     /**
+     * @param UserId $userId
+     * @return bool
+     */
+    public function belongsTo(UserId $userId): bool
+    {
+        return $this->userId->equalsTo($userId);
+    }
+
+    /**
      * @return Step[]
      */
     public function steps(): array
     {
         return $this->steps->toArray();
+    }
+
+    /**
+     * @param Step[] $steps
+     * @throws AnExecutedStepCannotBeRemoved
+     */
+    public function updateSteps(array $steps): void
+    {
+        $executedSteps = $this->steps->filter(function (Step $step) {
+            return $step->hasBeenExecuted();
+        });
+
+        $givenSteps = new ArrayCollection($steps);
+
+        /** @var Step $executedStep */
+        foreach ($executedSteps as $executedStep) {
+            if (!$givenSteps->contains($executedStep)) {
+                throw new AnExecutedStepCannotBeRemoved($this->id, $executedStep->position());
+            }
+        }
+
+        $this->steps = $givenSteps;
     }
 
     /**

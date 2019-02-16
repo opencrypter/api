@@ -5,7 +5,11 @@ namespace Tests\Util\Mock;
 
 use Core\Domain\Order\Order;
 use Core\Domain\Order\OrderId;
+use Core\Domain\Order\OrderRepository;
 
+/**
+ * @method OrderRepository reveal
+ */
 class OrderRepositoryMock extends Mock
 {
     public function shouldFindOrderOfId(OrderId $id, ?Order $order): self

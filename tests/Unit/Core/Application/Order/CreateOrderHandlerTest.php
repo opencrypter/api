@@ -34,10 +34,7 @@ class CreateOrderHandlerTest extends TestCase
     {
         $this->orderRepositoryMock = new OrderRepositoryMock($this->prophesize(OrderRepository::class));
         $this->dtoAssembler        = new OrderDtoAssembler();
-        $this->handler             = new CreateOrderHandler(
-            $this->orderRepositoryMock->reveal(),
-            $this->dtoAssembler
-        );
+        $this->handler             = new CreateOrderHandler($this->orderRepositoryMock->reveal(), $this->dtoAssembler);
     }
 
     /**
