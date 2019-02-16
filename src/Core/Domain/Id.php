@@ -38,6 +38,11 @@ abstract class Id
         return $this->value;
     }
 
+    public function equalsTo(Id $id): bool
+    {
+        return is_a($id, static::class) && $this->value === $id->value;
+    }
+
     public function __toString(): string
     {
         return $this->value;

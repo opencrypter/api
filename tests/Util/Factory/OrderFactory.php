@@ -18,15 +18,17 @@ class OrderFactory
 {
     public static function create(string $id, string $userId, array $steps = []): Order
     {
-        $steps = array_map(function (array $step) {
-            return new Step(
-                new Position($step['position']),
-                new Type($step['type']),
-                new ExchangeId($step['exchangeId']),
-                new Symbol($step['symbol']),
-                new Value($step['value']),
-                $step['dependsOf'] !== null ? new Position($step['dependsOf']) : null
-            );
+        $steps = array_map(function ($step) {
+            return $step instanceof Step
+                ? $step
+                : new Step(
+                    new Position($step['position']),
+                    new Type($step['type']),
+                    new ExchangeId($step['exchangeId']),
+                    new Symbol($step['symbol']),
+                    new Value($step['value']),
+                    $step['dependsOf'] !== null ? new Position($step['dependsOf']) : null
+                );
         }, $steps);
 
         return new Order(new OrderId($id), new UserId($userId), $steps);
@@ -42,5 +44,10 @@ class OrderFactory
         }
 
         return self::create($faker->uuid, $faker->uuid, $steps);
+    }
+
+    public static function copyOf(Order $order): Order
+    {
+        return clone $order;
     }
 }
