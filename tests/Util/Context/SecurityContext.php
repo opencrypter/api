@@ -16,30 +16,31 @@ class SecurityContext implements Context
 
     /**
      * @BeforeScenario
-     * @login
-     *
      * @param BeforeScenarioScope $scope
      */
-    public function login(BeforeScenarioScope $scope)
+    public function gatherContext(BeforeScenarioScope $scope): void
     {
         $this->context = $scope->getEnvironment()->getContext(FeatureContext::class);
+    }
 
+    /**
+     * @BeforeScenario @login
+     */
+    public function login()
+    {
         $email    = $this->context->faker()->safeEmail;
         $password = $this->context->faker()->sha256;
 
         $this->givenUser($email, $password);
-        $token = $this->authenticateUser($email, $password);
-
-        $this->context->addHeader('Authorization', "Bearer $token");
+        $this->context->setAuthorizationToken($this->authenticateUser($email, $password));
     }
 
     /**
-     * @AfterScenario
-     * @logout
+     * @AfterScenario @logout
      */
     public function logout()
     {
-        $this->context->addHeader('Authorization', '');
+        $this->context->setAuthorizationToken(null);
     }
 
     /**
@@ -57,7 +58,6 @@ class SecurityContext implements Context
 
         Assert::assertEquals(['email' => $email], $response);
     }
-
     /**
      * @param string $email
      * @param string $password

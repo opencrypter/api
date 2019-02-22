@@ -2,16 +2,17 @@
 
 namespace Tests\Util\Context;
 
-use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
+use Behat\Mink\Element\DocumentElement;
 use Behatch\Context\RestContext;
+use Behatch\HttpCall\Request;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Faker\Factory;
 use Faker\Generator;
 
-class FeatureContext implements Context
+class FeatureContext extends RestContext
 {
     /**
      * @var EntityManager
@@ -19,13 +20,14 @@ class FeatureContext implements Context
     private $manager;
 
     /**
-     * @var RestContext
+     * @var string
      */
-    private $rest;
+    private $currentAuthorizationToken;
 
-    public function __construct(EntityManager $manager)
+    public function __construct(EntityManager $manager, Request $request)
     {
         $this->manager = $manager;
+        parent::__construct($request);
     }
 
     /**
@@ -35,8 +37,6 @@ class FeatureContext implements Context
      */
     public function beforeScenario(BeforeScenarioScope $scope): void
     {
-        $this->rest = $scope->getEnvironment()->getContext(RestContext::class);
-
         (new ORMPurger($this->manager))->purge();
     }
 
@@ -48,13 +48,23 @@ class FeatureContext implements Context
         return Factory::create();
     }
 
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function addHeader(string $key, string $value): void
+    public function setAuthorizationToken(?string $token): void
     {
-        $this->rest->iAddHeaderEqualTo($key, $value);
+        $this->currentAuthorizationToken = $token;
+    }
+
+    /**
+     * Sends a HTTP request
+     */
+    public function iSendARequestTo($method, $url, PyStringNode $body = null, $files = []): DocumentElement
+    {
+        $this->iAddHeaderEqualTo('Content-Type', 'application/json');
+
+        if ($this->currentAuthorizationToken !== null) {
+            $this->iAddHeaderEqualTo('Authorization', 'Bearer ' . $this->currentAuthorizationToken);
+        }
+
+        return parent::iSendARequestTo($method, $url, $body, $files);
     }
 
     /**
@@ -67,9 +77,7 @@ class FeatureContext implements Context
     {
         $body = empty($body) ? null : new PyStringNode([\json_encode($body)], 1);
 
-        $this->rest->iAddHeaderEqualTo('Content-Type', 'application/json');
-
-        $response = $this->rest->iSendARequestTo($method, $path, $body);
+        $response = $this->iSendARequestTo($method, $path, $body);
 
         return \json_decode($response->getContent(), true);
     }

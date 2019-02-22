@@ -51,8 +51,12 @@ class UpdateOrderHandler
 
         $order = $this->repository->orderOfId($orderId);
 
-        if ($order === null || !$order->belongsTo($userId)) {
+        if ($order === null) {
             throw new OrderNotFound($orderId);
+        }
+
+        if (!$order->belongsTo($userId)) {
+            throw new OrderDoesNotBelongToTheUser($orderId, $userId);
         }
 
         $order->updateSteps($steps);

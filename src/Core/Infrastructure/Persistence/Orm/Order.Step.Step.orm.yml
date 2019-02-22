@@ -9,6 +9,8 @@ Core\Domain\Order\Step\Step:
       type: position
 
   fields:
+    exchangeId:
+      type: exchange_id
     type:
       type: order_step_type
     symbol:

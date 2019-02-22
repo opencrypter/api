@@ -36,7 +36,7 @@ abstract class DoctrineFloat extends FloatType
     {
         $plainValue = $value instanceof ValueObject ? $value->value() : $value;
 
-        return parent::convertToDatabaseValue($plainValue, $platform);
+        return parent::convertToDatabaseValue((float) $plainValue, $platform);
     }
 
 
@@ -46,6 +46,6 @@ abstract class DoctrineFloat extends FloatType
             return null;
         }
 
-        return $this->newInstance($value);
+        return $this->newInstance((float) $value);
     }
 }
