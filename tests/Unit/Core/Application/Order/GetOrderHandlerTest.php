@@ -3,19 +3,18 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Core\Application\Order;
 
+use Core\Application\Order\GetOrder;
+use Core\Application\Order\GetOrderHandler;
 use Core\Application\Order\OrderDoesNotBelongToTheUser;
 use Core\Application\Order\OrderDtoAssembler;
 use Core\Application\Order\OrderNotFound;
-use Core\Application\Order\UpdateOrder;
-use Core\Application\Order\UpdateOrderHandler;
 use Core\Domain\Order\OrderRepository;
-use Core\Domain\Order\Step\Type;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\OrderFactory;
 use Tests\Util\Factory\StepFactory;
 use Tests\Util\Mock\OrderRepositoryMock;
 
-class UpdateOrderHandlerTest extends TestCase
+class GetOrderHandlerTest extends TestCase
 {
     /**
      * @var OrderRepositoryMock
@@ -28,7 +27,7 @@ class UpdateOrderHandlerTest extends TestCase
     private $dtoAssembler;
 
     /**
-     * @var UpdateOrderHandler
+     * @var GetOrderHandler
      */
     private $handler;
 
@@ -36,7 +35,7 @@ class UpdateOrderHandlerTest extends TestCase
     {
         $this->orderRepositoryMock = new OrderRepositoryMock($this->prophesize(OrderRepository::class));
         $this->dtoAssembler        = new OrderDtoAssembler();
-        $this->handler             = new UpdateOrderHandler($this->orderRepositoryMock->reveal(), $this->dtoAssembler);
+        $this->handler             = new GetOrderHandler($this->orderRepositoryMock->reveal(), $this->dtoAssembler);
     }
 
     /**
@@ -44,40 +43,20 @@ class UpdateOrderHandlerTest extends TestCase
      */
     public function testHandler(): void
     {
-        $stepPosition = 1;
-        $stepType     = Type::WAIT_PRICE;
-        $exchangeId   = $this->faker()->uuid;
-        $symbol       = 'BTCUSD';
-        $value        = 1;
+        $steps = [
+            StepFactory::randomArray(),
+            StepFactory::randomArray(),
+        ];
 
-        $existingOrder = OrderFactory::random();
-        $expectedOrder = OrderFactory::copyOf($existingOrder);
-
-        $expectedOrder->updateSteps([StepFactory::create(
-            $stepPosition,
-            $stepType,
-            $exchangeId,
-            $symbol,
-            $value
-        )]);
+        $order = OrderFactory::create($this->faker()->uuid, $this->faker()->uuid, $steps);
 
         $this->orderRepositoryMock
-            ->shouldFindOrderOfId($existingOrder->id(), $existingOrder)
-            ->shouldSave($expectedOrder);
+            ->shouldFindOrderOfId($order->id(), $order);
 
-        $order = $this->handler->__invoke(new UpdateOrder(
-            $expectedOrder->id()->value(),
-            $expectedOrder->userId()->value(),
-            [StepFactory::createArray(
-                $stepPosition,
-                $stepType,
-                $exchangeId,
-                $symbol,
-                $value
-            )]
-        ));
-
-        self::assertEquals($this->dtoAssembler->writeDto($expectedOrder), $order);
+        self::assertEquals(
+            $this->dtoAssembler->writeDto($order),
+            $this->handler->__invoke(new GetOrder($order->id()->value(), $order->userId()->value()))
+        );
     }
 
     /**
@@ -92,7 +71,7 @@ class UpdateOrderHandlerTest extends TestCase
         $this->orderRepositoryMock
             ->shouldFindOrderOfId($order->id(), null);
 
-        $this->handler->__invoke(new UpdateOrder($order->id()->value(), $order->userId()->value(), []));
+        $this->handler->__invoke(new GetOrder($order->id()->value(), $order->userId()->value()));
     }
 
     /**
@@ -107,6 +86,6 @@ class UpdateOrderHandlerTest extends TestCase
         $this->orderRepositoryMock
             ->shouldFindOrderOfId($order->id(), $order);
 
-        $this->handler->__invoke(new UpdateOrder($order->id()->value(), $this->faker()->uuid, []));
+        $this->handler->__invoke(new GetOrder($order->id()->value(), $this->faker()->uuid));
     }
 }

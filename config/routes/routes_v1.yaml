@@ -24,3 +24,8 @@ orders_put:
     path: /v1/orders/{id}
     methods: [PUT]
     controller: Core\Ui\Http\PutOrderController::__invoke
+
+orders_get:
+    path: /v1/orders/{id}
+    methods: [GET]
+    controller: Core\Ui\Http\GetOrderController::__invoke

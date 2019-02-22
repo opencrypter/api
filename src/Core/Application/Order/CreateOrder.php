@@ -42,12 +42,12 @@ class CreateOrder
     {
         return array_map(function (array $step) {
             return new StepDto(
-                $step['position'],
+                (int) $step['position'],
                 $step['type'],
                 $step['exchangeId'],
                 $step['symbol'],
-                $step['value'],
-                $step['dependsOf'] ?? null
+                (float) $step['value'],
+                isset($step['dependsOf']) ? (int) $step['dependsOf'] : null
             );
         }, $steps);
     }
