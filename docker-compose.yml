@@ -10,8 +10,6 @@ services:
       POSTGRES_DB: opencrypter
     ports:
       - 5433:5432
-    networks:
-      - opencrypter
   php:
     build: ./docker/php-fpm
     container_name: opencrypter-php
@@ -24,8 +22,6 @@ services:
       - .:/app:cached
     extra_hosts:
       - "opencrypter.dev:127.0.0.1"
-    networks:
-      - opencrypter
   server:
     build: ./docker/nginx
     container_name: opencrypter-server
@@ -34,8 +30,6 @@ services:
       - "8080:80"
     volumes:
       - ./logs/nginx/:/var/log/nginx:cached
-    networks:
-      - opencrypter
   start_dependencies:
     image: dadarek/wait-for-dependencies
     depends_on:
@@ -45,7 +39,3 @@ services:
     command: db:5432 server:80
     environment:
       SLEEP_LENGTH: 0.5
-    networks:
-      - opencrypter
-networks:
-  opencrypter: ~
