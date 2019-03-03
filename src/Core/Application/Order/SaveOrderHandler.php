@@ -14,7 +14,7 @@ use Core\Domain\Order\Step\Value;
 use Core\Domain\Symbol;
 use Core\Domain\User\UserId;
 
-class CreateOrderHandler
+class SaveOrderHandler
 {
     /**
      * @var OrderRepository
@@ -22,47 +22,43 @@ class CreateOrderHandler
     private $repository;
 
     /**
-     * @var OrderDtoAssembler
-     */
-    private $dtoAssembler;
-
-    /**
-     * CreateOrderHandler constructor.
+     * SaveOrderHandler constructor.
      *
-     * @param OrderRepository   $repository
-     * @param OrderDtoAssembler $dtoAssembler
+     * @param OrderRepository $repository
      */
-    public function __construct(OrderRepository $repository, OrderDtoAssembler $dtoAssembler)
+    public function __construct(OrderRepository $repository)
     {
         $this->repository = $repository;
-        $this->dtoAssembler = $dtoAssembler;
     }
 
     /**
-     * @param CreateOrder $command
-     * @return OrderDto
-     * @throws DuplicatedOrder
+     * @param SaveOrder $command
+     * @throws \Core\Domain\Order\Step\AnExecutedStepIsImmutable
      */
-    public function __invoke(CreateOrder $command): OrderDto
+    public function __invoke(SaveOrder $command): void
     {
         $orderId = new OrderId($command->id());
         $userId  = new UserId($command->userId());
         $steps   = $this->createSteps($command->steps());
 
-        if ($this->repository->orderOfId($orderId) !== null) {
-            throw new DuplicatedOrder($orderId);
+        $order = $this->repository->orderOfId($orderId);
+
+        if (!$order) {
+            $this->repository->save(new Order($orderId, $userId, $steps));
+
+            return;
         }
 
-        $order = new Order($orderId, $userId, $steps);
+        $this->assertOrderBelongsToTheUser($order, $userId);
+
+        $order->updateSteps($steps);
 
         $this->repository->save($order);
-
-        return $this->dtoAssembler->writeDto($order);
     }
 
     /**
      * @param array $stepDtos
-     * @return array
+     * @return Step[]
      */
     private function createSteps(array $stepDtos): array
     {
@@ -76,5 +72,16 @@ class CreateOrderHandler
                 $stepDto->getDependsOf() !== null ? new Position($stepDto->getDependsOf()) : null
             );
         }, $stepDtos);
+    }
+
+    /**
+     * @param Order  $order
+     * @param UserId $userId
+     */
+    private function assertOrderBelongsToTheUser(Order $order, UserId $userId): void
+    {
+        if (!$order->userId()->equalsTo($userId)) {
+            throw new OrderDoesNotBelongToTheUser($order->id(), $userId);
+        }
     }
 }

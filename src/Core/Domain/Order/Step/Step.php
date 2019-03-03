@@ -81,6 +81,34 @@ class Step
     }
 
     /**
+     * @param Step $step
+     * @return Step
+     */
+    public function copyFrom(Step $step): self
+    {
+        $this->position   = $step->position;
+        $this->type       = $step->type;
+        $this->exchangeId = $step->exchangeId;
+        $this->value      = $step->value;
+        $this->dependsOf  = $step->dependsOf;
+
+        return $this;
+    }
+
+    /**
+     * @param Step $step
+     * @return bool
+     */
+    public function equals(Step $step): bool
+    {
+        return $this->position->equals($step->position)
+            && $this->type->equals($step->type)
+            && $this->exchangeId->equalsTo($step->exchangeId)
+            && $this->symbol->equals($step->symbol)
+            && $this->dependsOf->equals($step->dependsOf);
+    }
+
+    /**
      * @return Order
      */
     public function order(): Order
@@ -156,7 +184,6 @@ class Step
     {
         $this->executedAt = ExecutedAt::now();
     }
-
     /**
      * @return bool
      */

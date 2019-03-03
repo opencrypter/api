@@ -6,4 +6,4 @@ services:
     tags: [{ name: messenger.message_handler, bus: messenger.bus.command }]
 
   Core\Application\User\CreateUserHandler: ~
-  Core\Application\Order\CreateOrderHandler: ~
+  Core\Application\Order\SaveOrderHandler: ~

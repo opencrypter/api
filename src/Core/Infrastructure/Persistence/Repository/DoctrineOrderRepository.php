@@ -28,6 +28,10 @@ class DoctrineOrderRepository extends DoctrineRepository implements OrderReposit
      */
     public function save(Order $order): void
     {
+        foreach ($order->steps() as $step) {
+            $step->setOrder($order);
+        }
+
         $this->manager()->persist($order);
         $this->manager()->flush($order);
     }

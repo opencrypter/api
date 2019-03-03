@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Core\Ui\Http;
 
-use Core\Application\Order\CreateOrder;
+use Core\Application\Order\SaveOrder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +20,8 @@ class PutOrderController extends Controller
     {
         $body = json_decode($request->getContent(), true);
 
-        $order = $this->handleCommand(new CreateOrder($id, $this->currentUserId(), $body['steps']));
+        $this->handleCommand(new SaveOrder($id, $this->currentUserId(), $body['steps']));
 
-        return new JsonResponse($this->serialize($order), Response::HTTP_CREATED);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -34,6 +34,14 @@ class OrderFactory
         return new Order(new OrderId($id), new UserId($userId), $steps);
     }
 
+    public static function withoutEvents(string $id, string $userId, array $steps = []): Order
+    {
+        $order = self::create($id, $userId, $steps);
+        $order->releaseEvents();
+
+        return $order;
+    }
+
     public static function random(): Order
     {
         $faker = Factory::create();
@@ -49,5 +57,11 @@ class OrderFactory
     public static function copyOf(Order $order): Order
     {
         return clone $order;
+    }
+    public static function withSteps(array $steps): Order
+    {
+        $faker = Factory::create();
+
+        return self::create($faker->uuid, $faker->uuid, $steps);
     }
 }

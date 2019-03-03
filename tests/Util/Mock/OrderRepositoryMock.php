@@ -17,7 +17,7 @@ class OrderRepositoryMock extends Mock
         $this->prophecy()
             ->orderOfId($id)
             ->willReturn($order)
-            ->shouldBeCalledOnce();
+            ->shouldBeCalled();
 
         return $this;
     }
@@ -26,7 +26,7 @@ class OrderRepositoryMock extends Mock
     {
         $this->prophecy()
             ->save($order)
-            ->shouldBeCalledOnce();
+            ->shouldBeCalled();
 
         return $this;
     }

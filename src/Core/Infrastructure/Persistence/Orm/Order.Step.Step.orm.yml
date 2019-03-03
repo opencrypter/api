@@ -17,6 +17,9 @@ Core\Domain\Order\Step\Step:
       type: symbol
     value:
       type: value
+    dependsOf:
+      type: position
+      nullable: true
     createdAt:
       type: created_at
     executedAt:

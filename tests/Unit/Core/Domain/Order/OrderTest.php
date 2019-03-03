@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Core\Domain\Order;
 
-use Core\Domain\Order\Step\AnExecutedStepCannotBeRemoved;
+use Core\Domain\Order\Step\AnExecutedStepIsImmutable;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\OrderFactory;
 use Tests\Util\Factory\StepFactory;
@@ -11,23 +11,28 @@ use Tests\Util\Factory\StepFactory;
 class OrderTest extends TestCase
 {
     /**
-     * @throws AnExecutedStepCannotBeRemoved
+     * @throws AnExecutedStepIsImmutable
      */
     public function testUpdateSteps(): void
     {
-        $steps = [StepFactory::random(), StepFactory::random()];
-        $order = OrderFactory::random();
+        $order = OrderFactory::withSteps([
+            StepFactory::create(1, 'wait_price', $this->uuid(), 'BTCUSD', 4500, null),
+            StepFactory::create(2, 'sell', $this->uuid(), 'BTCUSD', 400, null),
+        ]);
 
-        $order->updateSteps($steps);
-        self::assertEquals($steps, $order->steps());
+        $newStep = StepFactory::create(1, 'buy', $this->uuid(), 'BTCUSD', 100, null);
+
+        $order->updateSteps([$newStep]);
+
+        self::assertEquals([$newStep], $order->steps());
     }
 
     /**
-     * @throws AnExecutedStepCannotBeRemoved
+     * @throws AnExecutedStepIsImmutable
      */
     public function testExceptionWhenTryToRemoveAnExecutedStep(): void
     {
-        $this->expectException(AnExecutedStepCannotBeRemoved::class);
+        $this->expectException(AnExecutedStepIsImmutable::class);
 
         $existingStep = StepFactory::random();
         $existingStep->markAsExecuted();

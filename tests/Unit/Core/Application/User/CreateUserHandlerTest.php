@@ -37,10 +37,13 @@ class CreateUserHandlerTest extends TestCase
         ClockMock::withClockMock(true);
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function testHandler(): void
     {
         $password = $this->faker()->password;
-        $expected = UserFactory::create($this->faker()->uuid, $this->faker()->email, $password);
+        $expected = UserFactory::withPassword($password);
 
         $this->repositoryMock
             ->shouldFindUserOfEmail($expected->credentials()->email(), null)
