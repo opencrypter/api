@@ -48,10 +48,9 @@ class GetOrderHandlerTest extends TestCase
             StepFactory::randomArray(),
         ];
 
-        $order = OrderFactory::create($this->faker()->uuid, $this->faker()->uuid, $steps);
+        $order = OrderFactory::withSteps($steps);
 
-        $this->orderRepositoryMock
-            ->shouldFindOrderOfId($order->id(), $order);
+        $this->orderRepositoryMock->shouldFindOrderOfId($order->id(), $order);
 
         self::assertEquals(
             $this->dtoAssembler->writeDto($order),
@@ -86,6 +85,6 @@ class GetOrderHandlerTest extends TestCase
         $this->orderRepositoryMock
             ->shouldFindOrderOfId($order->id(), $order);
 
-        $this->handler->__invoke(new GetOrder($order->id()->value(), $this->faker()->uuid));
+        $this->handler->__invoke(new GetOrder($order->id()->value(), $this->uuid()));
     }
 }

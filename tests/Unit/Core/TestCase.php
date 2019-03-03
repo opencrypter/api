@@ -21,4 +21,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         return $this->faker;
     }
+
+    protected function uuid(): string
+    {
+        return $this->faker()->uuid;
+    }
 }

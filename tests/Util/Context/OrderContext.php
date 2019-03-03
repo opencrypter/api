@@ -6,7 +6,6 @@ namespace Tests\Util\Context;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
-use Core\Domain\Order\OrderId;
 use Core\Domain\Order\OrderRepository;
 use PHPUnit\Framework\Assert;
 
@@ -43,16 +42,16 @@ class OrderContext implements Context
     }
 
     /**
-     * @Given the order with id :id exists in the repository
+     * @Given the order with id :id exists
      *
      * @param string $id
      * @throws \Exception
      */
     public function theOrderExists(string $id): void
     {
-        if (! $this->repository->orderOfId(new OrderId($id))) {
-            throw new \Exception("Order with id {$id}  not found");
-        }
+        $response = $this->context->sendAJsonRequest('GET', "/v1/orders/{$id}");
+
+        Assert::assertNotContains('message', $response);
     }
 
     /**
@@ -67,6 +66,34 @@ class OrderContext implements Context
             'steps' => $stepTableNode->getHash()
         ]);
 
-        Assert::assertNotContains('message', $response);
+        Assert::assertNull($response);
+    }
+
+    /**
+     * @Given the order with id :id equals to:
+     * @param string    $id
+     * @param TableNode $stepTableNode
+     */
+    public function equalsTo(string $id, TableNode $stepTableNode): void
+    {
+        $response = $this->context->sendAJsonRequest('GET', "/v1/orders/{$id}");
+
+        $expectedSteps = array_map(function ($stepNode) {
+            return [
+                'position'   => (int) $stepNode['position'],
+                'type'       => $stepNode['type'],
+                'exchangeId' => $stepNode['exchangeId'],
+                'symbol'     => $stepNode['symbol'],
+                'value'      => (float) $stepNode['value'],
+                'dependsOf'  => $stepNode['dependsOf'] === '' ? null : (int) $stepNode['dependsOf']
+            ];
+        }, $stepTableNode->getHash());
+
+        $expected = [
+            'id'    => $id,
+            'steps' => $expectedSteps,
+        ];
+
+        Assert::assertEquals($expected, $response);
     }
 }

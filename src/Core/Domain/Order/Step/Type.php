@@ -54,4 +54,13 @@ class Type implements ValueObject
     {
         return $this->value;
     }
+
+    /**
+     * @param Type $type
+     * @return bool
+     */
+    public function equals(Type $type): bool
+    {
+        return $this->value === $type->value;
+    }
 }

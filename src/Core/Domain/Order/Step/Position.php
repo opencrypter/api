@@ -12,6 +12,12 @@ class Position implements ValueObject
      */
     private $value;
 
+    /**
+     * Position constructor.
+     *
+     * @param int $value
+     * @throws InvalidPosition
+     */
     public function __construct(int $value)
     {
         if ($value < 1) {
@@ -28,6 +34,15 @@ class Position implements ValueObject
     public function value(): int
     {
         return $this->value;
+    }
+
+    /**
+     * @param Position $position
+     * @return bool
+     */
+    public function equals(Position $position): bool
+    {
+        return $this->value === $position->value;
     }
 
     public function __toString(): string

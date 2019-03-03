@@ -27,4 +27,13 @@ class Symbol implements ValueObject
     {
         return $this->value;
     }
+
+    /**
+     * @param Symbol $symbol
+     * @return bool
+     */
+    public function equals(Symbol $symbol): bool
+    {
+        return $this->value === $symbol->value;
+    }
 }

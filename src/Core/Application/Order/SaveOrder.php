@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Core\Application\Order;
 
-class UpdateOrder
+class SaveOrder
 {
     /**
      * @var string
@@ -42,12 +42,12 @@ class UpdateOrder
     {
         return array_map(function (array $step) {
             return new StepDto(
-                $step['position'],
+                (int) $step['position'],
                 $step['type'],
                 $step['exchangeId'],
                 $step['symbol'],
-                $step['value'],
-                $step['dependsOf'] ?? null
+                (float) $step['value'],
+                isset($step['dependsOf']) ? (int) $step['dependsOf'] : null
             );
         }, $steps);
     }

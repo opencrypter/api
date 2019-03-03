@@ -14,5 +14,6 @@ Core\Domain\Order\Order:
   oneToMany:
     steps:
       targetEntity: Core\Domain\Order\Step\Step
+      orderBy: { 'position': 'ASC' }
       mappedBy: order
       cascade: ["persist", "merge"]

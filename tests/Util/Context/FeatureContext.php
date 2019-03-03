@@ -71,9 +71,9 @@ class FeatureContext extends RestContext
      * @param string $method
      * @param string $path
      * @param array  $body
-     * @return array
+     * @return array|null
      */
-    public function sendAJsonRequest(string $method, string $path, array $body = []): array
+    public function sendAJsonRequest(string $method, string $path, array $body = []): ?array
     {
         $body = empty($body) ? null : new PyStringNode([\json_encode($body)], 1);
 
