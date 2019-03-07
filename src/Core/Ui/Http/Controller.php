@@ -4,6 +4,10 @@ declare(strict_types=1);
 namespace Core\Ui\Http;
 
 use Core\Infrastructure\Security\UserCredentials;
+use Core\Ui\Http\Exception\BadRequest;
+use Core\Ui\Http\Exception\UserNotLogged;
+use JsonSchema\Validator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Security\Core\Security;
@@ -95,6 +99,25 @@ abstract class Controller
         $serialized = $this->serializer->serialize($any, $format);
 
         return \json_decode($serialized, true);
+    }
+
+    /**
+     * @param Request $request
+     * @param string  $model
+     * @throws BadRequest
+     */
+    protected function validate(Request $request, string $model): void
+    {
+        $validator = new Validator();
+
+        $body       = \json_decode($request->getContent());
+        $jsonSchema = __DIR__ . "/json-schema/{$model}.json";
+
+        $validator->validate($body, (object) ['$ref' => "file://{$jsonSchema}"]);
+
+        if (!$validator->isValid()) {
+            throw BadRequest::createWithErrors($validator->getErrors());
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Ui\Http;
+namespace Core\Ui\Http\Exception;
 
 use Core\Ui\UiException;
 use Throwable;

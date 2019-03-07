@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core\Ui\Http;
 
 use Core\Application\Order\GetOrder;
+use Core\Ui\Http\Exception\UserNotLogged;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GetOrderController extends Controller
