@@ -62,11 +62,25 @@ class OrderContext implements Context
      */
     public function createOrder(string $id, TableNode $stepTableNode): void
     {
-        $response = $this->context->sendAJsonRequest('PUT', "/v1/orders/{$id}", [
-            'steps' => $stepTableNode->getHash()
-        ]);
+        $steps = array_map(function ($stepNode) {
+            $step = [
+                'position'   => $stepNode['position'] !== '' ? (int)$stepNode['position'] : null,
+                'type'       => $stepNode['type'] !== '' ? $stepNode['type'] : null,
+                'exchangeId' => $stepNode['exchangeId'] !== '' ? $stepNode['exchangeId'] : null,
+                'symbol'     => $stepNode['symbol'] !== '' ? $stepNode['symbol'] : null,
+                'value'      => $stepNode['value'] !== '' ? (float) $stepNode['value'] : null,
+            ];
 
-        Assert::assertNull($response);
+            if (isset($stepNode['dependsOf']) && $stepNode['dependsOf'] !== '') {
+                $step['dependsOf'] = $stepNode['dependsOf'];
+            }
+
+            return $step;
+        }, $stepTableNode->getHash());
+
+        $this->context->sendAJsonRequest('PUT', "/v1/orders/{$id}", [
+            'steps' => $steps
+        ]);
     }
 
     /**
@@ -95,5 +109,15 @@ class OrderContext implements Context
         ];
 
         Assert::assertEquals($expected, $response);
+    }
+
+    /**
+     * @Given I put an order with the next steps
+     *
+     * @param TableNode $stepTableNode
+     */
+    public function sendBadRequest(TableNode $stepTableNode): void
+    {
+
     }
 }

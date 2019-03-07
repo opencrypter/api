@@ -56,5 +56,5 @@ services:
   # └─────────────────────────┘
   Core\Ui\Http\:
     resource: '../src/Core/Ui/Http'
+    exclude: '../src/Core/Ui/Http/{Exception}'
     tags: ['controller.service_arguments']
-
