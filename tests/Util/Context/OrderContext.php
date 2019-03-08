@@ -110,14 +110,4 @@ class OrderContext implements Context
 
         Assert::assertEquals($expected, $response);
     }
-
-    /**
-     * @Given I put an order with the next steps
-     *
-     * @param TableNode $stepTableNode
-     */
-    public function sendBadRequest(TableNode $stepTableNode): void
-    {
-
-    }
 }
