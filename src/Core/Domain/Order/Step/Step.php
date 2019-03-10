@@ -89,6 +89,7 @@ class Step
         $this->position   = $step->position;
         $this->type       = $step->type;
         $this->exchangeId = $step->exchangeId;
+        $this->symbol     = $step->symbol;
         $this->value      = $step->value;
         $this->dependsOf  = $step->dependsOf;
 
@@ -105,15 +106,8 @@ class Step
             && $this->type->equals($step->type)
             && $this->exchangeId->equalsTo($step->exchangeId)
             && $this->symbol->equals($step->symbol)
-            && $this->dependsOf->equals($step->dependsOf);
-    }
-
-    /**
-     * @return Order
-     */
-    public function order(): Order
-    {
-        return $this->order;
+            && $this->value->equals($step->value)
+            && $this->dependsOf == $step->dependsOf;
     }
 
     /**

@@ -22,7 +22,7 @@ abstract class AggregateRoot
      */
     protected function record(Event $event): void
     {
-        $this->events[] = $event;
+        $this->events[\get_class($event)] = $event;
     }
 
     /**

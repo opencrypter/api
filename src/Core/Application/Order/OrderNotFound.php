@@ -9,8 +9,13 @@ use Throwable;
 
 class OrderNotFound extends \Exception implements ApplicationException
 {
-    public function __construct(OrderId $id, int $code = 404, Throwable $previous = null)
+    public function __construct(string $id, int $code = 404, Throwable $previous = null)
     {
-        parent::__construct("order with id {$id->value()} not found", $code, $previous);
+        parent::__construct("order with id {$id} not found", $code, $previous);
+    }
+
+    public static function create(OrderId $orderId): self
+    {
+        return new self($orderId->value());
     }
 }

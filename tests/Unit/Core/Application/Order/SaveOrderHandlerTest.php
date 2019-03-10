@@ -58,13 +58,11 @@ class SaveOrderHandlerTest extends TestCase
      */
     public function testOrderUpdate(): void
     {
-        $steps = [
-            StepFactory::createArray(1, 'wait_price', $this->uuid(), 'BTCUSD', 3400),
-            StepFactory::createArray(2, 'buy', $this->uuid(), 'BTCUSD', 2.3),
-        ];
+        $step = StepFactory::create(1, 'wait_price', $this->uuid(), 'BTCUSD', 3400);
 
         $order    = OrderFactory::withoutEvents($this->uuid(), $this->uuid(), []);
-        $expected = OrderFactory::withoutEvents($order->id()->value(), $order->userId()->value(), $steps);
+        $expected = OrderFactory::withoutEvents($order->id()->value(), $order->userId()->value(), []);
+        $expected->updateSteps([$step]);
 
         $this->orderRepositoryMock
             ->shouldFindOrderOfId($order->id(), $order)
@@ -73,7 +71,7 @@ class SaveOrderHandlerTest extends TestCase
         $this->handler->__invoke(new SaveOrder(
             $order->id()->value(),
             $order->userId()->value(),
-            $steps
+            [StepFactory::arrayFromEntity($step)]
         ));
     }
 
@@ -83,6 +81,7 @@ class SaveOrderHandlerTest extends TestCase
     public function testExceptionWhenOrderDoesNotBelongToTheUser(): void
     {
         $this->expectException(OrderDoesNotBelongToTheUser::class);
+        $this->expectExceptionCode(404);
 
         $order = OrderFactory::random();
 

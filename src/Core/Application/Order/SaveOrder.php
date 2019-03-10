@@ -42,12 +42,12 @@ class SaveOrder
     {
         return array_map(function (array $step) {
             return new StepDto(
-                (int) $step['position'],
+                $step['position'],
                 $step['type'],
                 $step['exchangeId'],
                 $step['symbol'],
-                (float) $step['value'],
-                isset($step['dependsOf']) ? (int) $step['dependsOf'] : null
+                $step['value'],
+                isset($step['dependsOf']) ? $step['dependsOf'] : null
             );
         }, $steps);
     }

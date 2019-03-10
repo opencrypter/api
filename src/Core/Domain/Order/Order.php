@@ -79,7 +79,7 @@ class Order extends AggregateRoot
      */
     public function steps(): array
     {
-        return $this->steps->toArray();
+        return $this->steps->getValues();
     }
 
     /**
@@ -90,31 +90,56 @@ class Order extends AggregateRoot
     {
         $givenSteps = new ArrayCollection($steps);
 
-        $this->assertExecutedStepsAreIn($givenSteps);
+        $this->removeStepsNotIn($givenSteps);
 
-        $this->steps = $givenSteps->map(function (Step $step) {
-            return $this->buildStep($step);
-        });
-
-        OrderStepsUpdated::create($this);
+        foreach ($givenSteps as $step) {
+            $this->putStep($step);
+        }
     }
 
     /**
      * @param Step $step
-     * @return Step
      * @throws AnExecutedStepIsImmutable
      */
-    private function buildStep(Step $step): Step
+    private function putStep(Step $step): void
     {
         if (null === $existingStep = $this->stepOfPosition($step)) {
-            return $step;
+            $this->steps->add($step);
+            $this->record(OrderStepsUpdated::create($this));
+
+            return;
         }
 
         if ($existingStep->hasBeenExecuted() && !$existingStep->equals($step)) {
-            throw new AnExecutedStepIsImmutable($this->id, $step->position());
+            throw AnExecutedStepIsImmutable::create($this->id, $step->position());
         }
 
-        return $existingStep->copyFrom($step);
+        if (!$existingStep->equals($step)) {
+            $existingStep->copyFrom($step);
+            $this->record(OrderStepsUpdated::create($this));
+        }
+    }
+
+    /**
+     * @param ArrayCollection $givenSteps
+     * @throws AnExecutedStepIsImmutable
+     */
+    private function removeStepsNotIn(ArrayCollection $givenSteps): void
+    {
+        foreach ($this->steps as $step) {
+            $exists = $givenSteps->exists(function (int $key, Step $givenStep) use ($step) {
+                return $givenStep->position()->equals($step->position());
+            });
+
+            if (!$exists) {
+                if ($step->hasBeenExecuted()) {
+                    throw AnExecutedStepIsImmutable::create($this->id, $step->position());
+                }
+
+                $this->steps->removeElement($step);
+                $this->record(OrderStepsUpdated::create($this));
+            }
+        }
     }
 
     /**
@@ -128,24 +153,6 @@ class Order extends AggregateRoot
         })->first();
 
         return $step !== false ? $step : null;
-    }
-
-    /**
-     * @param ArrayCollection $givenSteps
-     * @throws AnExecutedStepIsImmutable
-     */
-    private function assertExecutedStepsAreIn(ArrayCollection $givenSteps): void
-    {
-        /** @var Step[] $executedSteps */
-        $executedSteps = $this->steps->filter(function (Step $step) {
-            return $step->hasBeenExecuted();
-        });
-
-        foreach ($executedSteps as $step) {
-            if (!$givenSteps->contains($step)) {
-                throw new AnExecutedStepIsImmutable($this->id, $step->position());
-            };
-        }
     }
 
     /**

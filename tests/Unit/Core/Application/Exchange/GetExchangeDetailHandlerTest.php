@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Core\Application\Exchange;
 
 use Core\Application\Exchange\ExchangeDtoAssembler;
+use Core\Application\Exchange\ExchangeNotFound;
 use Core\Application\Exchange\GetExchangeDetail;
 use Core\Application\Exchange\GetExchangeDetailHandler;
-use Core\Domain\Exchange\ExchangeNotFound;
 use Core\Domain\Exchange\ExchangeRepository;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\ExchangeFactory;
@@ -46,6 +46,7 @@ class GetExchangeDetailHandlerTest extends TestCase
     public function testExceptionWhenExchangeDoesNotExist(): void
     {
         $this->expectException(ExchangeNotFound::class);
+        $this->expectExceptionCode(404);
 
         $exchange = ExchangeFactory::random();
         $this->mockedRepository->shouldFindExchangeOfId($exchange->id(), null);

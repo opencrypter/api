@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Core\Application\Exchange;
 
 use Core\Domain\Exchange\ExchangeId;
-use Core\Domain\Exchange\ExchangeNotFound;
 use Core\Domain\Exchange\ExchangeRepository;
 
 class GetExchangeDetailHandler
@@ -42,7 +41,7 @@ class GetExchangeDetailHandler
 
         $exchange = $this->repository->exchangeOfId($exchangeId);
         if ($exchange === null) {
-            throw new ExchangeNotFound($exchangeId);
+            throw ExchangeNotFound::create($exchangeId);
         }
 
         return $this->dtoAssembler->writeDto($exchange);
