@@ -5,7 +5,7 @@ namespace Tests\Unit\Core\Domain\Exchange;
 
 use Core\Domain\Exchange\InvalidName;
 use Core\Domain\Exchange\Name;
-use PHPUnit\Framework\TestCase;
+use Tests\Unit\Core\TestCase;
 
 class NameTest extends TestCase
 {
@@ -15,6 +15,8 @@ class NameTest extends TestCase
     public function testExceptionOnInvalidName(): void
     {
         $this->expectException(InvalidName::class);
+        $this->expectExceptionCode(400);
+
         new Name('');
     }
 }

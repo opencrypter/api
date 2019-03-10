@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Core\Domain\Exchange;
 
-use Core\Domain\CreatedAt;
 use Core\Domain\AggregateRoot;
+use Core\Domain\CreatedAt;
 use Core\Domain\UpdatedAt;
 
 final class Exchange extends AggregateRoot
@@ -47,8 +47,6 @@ final class Exchange extends AggregateRoot
         $this->name      = $name;
         $this->symbols   = $symbols;
         $this->createdAt = CreatedAt::now();
-
-        $this->record(ExchangeCreated::create($this));
     }
 
     /**

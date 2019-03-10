@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Core\Domain\Order;
 
+use Core\Domain\Order\OrderStepsUpdated;
 use Core\Domain\Order\Step\AnExecutedStepIsImmutable;
+use Core\Domain\Order\Step\Step;
+use Core\Domain\Order\Step\Type;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\OrderFactory;
 use Tests\Util\Factory\StepFactory;
@@ -16,28 +19,59 @@ class OrderTest extends TestCase
     public function testUpdateSteps(): void
     {
         $order = OrderFactory::withSteps([
-            StepFactory::create(1, 'wait_price', $this->uuid(), 'BTCUSD', 4500, null),
-            StepFactory::create(2, 'sell', $this->uuid(), 'BTCUSD', 400, null),
+            StepFactory::create(1, Type::WAIT_PRICE, $this->uuid(), 'BTCUSD', 1000),
+            StepFactory::create(2, Type::BUY, $this->uuid(), 'BTCUSD', 1)
         ]);
 
-        $newStep = StepFactory::create(1, 'buy', $this->uuid(), 'BTCUSD', 100, null);
+        $steps = [
+            StepFactory::create(2, Type::SELL, $this->uuid(), 'BTCUSD', 1),
+            StepFactory::create(3, Type::BUY, $this->uuid(), 'BTCUSD', 1)
+        ];
 
-        $order->updateSteps([$newStep]);
+        $order->updateSteps($steps);
 
-        self::assertEquals([$newStep], $order->steps());
+        self::assertEquals($steps, $order->steps());
+        self::assertEquals(OrderStepsUpdated::create($order), $order->releaseEvents()[OrderStepsUpdated::class]);
+    }
+
+    public function stepsImmutabilityDataProvider(): array
+    {
+        return [
+            [StepFactory::withPosition(1), [StepFactory::withPosition(1)]], // Tries to modify the current step.
+            [StepFactory::withPosition(1), [StepFactory::withPosition(2)]], // Tries to remove the current step.
+        ];
+    }
+
+    /**
+     * @dataProvider stepsImmutabilityDataProvider
+     *
+     * @param Step  $currentStep
+     * @param Step[] $steps
+     * @throws AnExecutedStepIsImmutable
+     */
+    public function testStepsImmutability(Step $currentStep, array $steps): void
+    {
+        $this->expectException(AnExecutedStepIsImmutable::class);
+        $this->expectExceptionCode(409);
+
+        $currentStep->markAsExecuted();
+
+        $order = OrderFactory::withSteps([$currentStep]);
+        $order->updateSteps($steps);
     }
 
     /**
      * @throws AnExecutedStepIsImmutable
      */
-    public function testExceptionWhenTryToRemoveAnExecutedStep(): void
+    public function testExceptionNotThrownWhenNoChanges(): void
     {
-        $this->expectException(AnExecutedStepIsImmutable::class);
+        $currentStep = StepFactory::withPosition(1);
+        $currentStep->markAsExecuted();
 
-        $existingStep = StepFactory::random();
-        $existingStep->markAsExecuted();
+        $order = OrderFactory::withSteps([$currentStep]);
+        $order->releaseEvents();
 
-        $order = OrderFactory::create($this->faker()->uuid, $this->faker()->uuid, [$existingStep]);
-        $order->updateSteps([StepFactory::random()]);
+        $order->updateSteps([$currentStep]);
+        self::assertEmpty($order->releaseEvents());
     }
 }

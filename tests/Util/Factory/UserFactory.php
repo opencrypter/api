@@ -18,6 +18,13 @@ class UserFactory
         );
     }
 
+    public static function random(): User
+    {
+        $faker = Factory::create();
+
+        return self::create($faker->uuid, $faker->email, $faker->password);
+    }
+
     public static function withPassword(string $password): User
     {
         $faker = Factory::create();

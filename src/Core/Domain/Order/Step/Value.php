@@ -29,4 +29,13 @@ class Value implements ValueObject
     {
         return $this->value;
     }
+
+    /**
+     * @param Value $value
+     * @return bool
+     */
+    public function equals(Value $value): bool
+    {
+        return $this->value === $value->value;
+    }
 }

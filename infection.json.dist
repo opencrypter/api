@@ -1,0 +1,22 @@
+{
+    "timeout": 10,
+    "source": {
+        "directories": [
+            "src/Core/Application",
+            "src/Core/Domain"
+        ]
+    },
+    "logs": {
+        "text": "var/log/infection.log",
+        "badge": {
+          "branch": "master"
+        }
+    },
+    "mutators": {
+        "@default": true
+    },
+    "testFramework":"phpunit",
+    "phpUnit": {
+        "customPath": "vendor\/bin\/phpunit"
+    }
+}

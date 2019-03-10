@@ -5,10 +5,10 @@ namespace Tests\Unit\Core\Application\User;
 
 use Core\Application\User\CreateUser;
 use Core\Application\User\CreateUserHandler;
+use Core\Application\User\DuplicatedUser;
 use Core\Domain\User\InvalidEmail;
 use Core\Domain\User\InvalidPassword;
 use Core\Domain\User\UserRepository;
-use Symfony\Bridge\PhpUnit\ClockMock;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Dummy\UserPasswordEncoder;
 use Tests\Util\Factory\UserFactory;
@@ -33,8 +33,6 @@ class CreateUserHandlerTest extends TestCase
             $this->repositoryMock->reveal(),
             new \Core\Infrastructure\Factory\UserFactory(new UserPasswordEncoder())
         );
-
-        ClockMock::withClockMock(true);
     }
 
     /**
@@ -51,6 +49,21 @@ class CreateUserHandlerTest extends TestCase
             ->shouldSave($expected);
 
         $this->handler->__invoke(new CreateUser($expected->credentials()->email(), $password));
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testExceptionWhenEmailIsDuplicated(): void
+    {
+        $this->expectException(DuplicatedUser::class);
+        $this->expectExceptionCode(409);
+
+        $user = UserFactory::random();
+
+        $this->repositoryMock->shouldFindUserOfEmail($user->credentials()->email(), $user);
+
+        $this->handler->__invoke(new CreateUser($user->credentials()->email(), '123456'));
     }
 
     public function invalidValuesDataProvider(): array
