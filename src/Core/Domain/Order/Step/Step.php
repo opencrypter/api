@@ -104,7 +104,7 @@ class Step
     {
         return $this->position->equals($step->position)
             && $this->type->equals($step->type)
-            && $this->exchangeId->equalsTo($step->exchangeId)
+            && $this->exchangeId->equals($step->exchangeId)
             && $this->symbol->equals($step->symbol)
             && $this->value->equals($step->value)
             && $this->dependsOf == $step->dependsOf;

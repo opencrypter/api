@@ -26,7 +26,7 @@ services:
   Core\Domain\User\UserRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineUserRepository'
   Core\Domain\Exchange\ExchangeRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository'
   Core\Domain\Order\OrderRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineOrderRepository'
-
+  Core\Domain\Credentials\CredentialsRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineCredentialsRepository'
 
   # ┌─────────────────────────┐
   # │ Infrastructure services │

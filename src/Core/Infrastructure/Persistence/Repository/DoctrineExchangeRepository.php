@@ -6,7 +6,6 @@ namespace Core\Infrastructure\Persistence\Repository;
 use Core\Domain\Exchange\Exchange;
 use Core\Domain\Exchange\ExchangeId;
 use Core\Domain\Exchange\ExchangeRepository;
-use Core\Infrastructure\Persistence\Repository\DoctrineRepository;
 
 class DoctrineExchangeRepository extends DoctrineRepository implements ExchangeRepository
 {
@@ -18,6 +17,11 @@ class DoctrineExchangeRepository extends DoctrineRepository implements ExchangeR
     public function save(Exchange $exchange): void
     {
         $this->persistAndFlush($exchange);
+    }
+
+    public function exists(ExchangeId $id): bool
+    {
+        return 0 < $this->repository()->count(['id' => $id]);
     }
 
     /**

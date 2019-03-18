@@ -71,7 +71,7 @@ class Order extends AggregateRoot
      */
     public function belongsTo(UserId $userId): bool
     {
-        return $this->userId->equalsTo($userId);
+        return $this->userId->equals($userId);
     }
 
     /**

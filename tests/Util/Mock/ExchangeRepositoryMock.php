@@ -22,6 +22,16 @@ final class ExchangeRepositoryMock extends Mock
         return $this;
     }
 
+    public function shouldExist(ExchangeId $exchangeId, bool $expected): self
+    {
+        $this->prophecy()
+            ->exists($exchangeId)
+            ->willReturn($expected)
+            ->shouldBeCalledOnce();
+
+        return $this;
+    }
+
     public function shouldFindAll(array $expected): self
     {
         $this->prophecy()

@@ -80,7 +80,7 @@ class SaveOrderHandler
      */
     private function assertOrderBelongsToTheUser(Order $order, UserId $userId): void
     {
-        if (!$order->userId()->equalsTo($userId)) {
+        if (!$order->userId()->equals($userId)) {
             throw new OrderDoesNotBelongToTheUser($order->id(), $userId);
         }
     }
