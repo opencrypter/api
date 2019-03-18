@@ -5,6 +5,7 @@ namespace Core\Domain\Exchange;
 
 use Core\Domain\AggregateRoot;
 use Core\Domain\CreatedAt;
+use Core\Domain\Name;
 use Core\Domain\UpdatedAt;
 
 final class Exchange extends AggregateRoot

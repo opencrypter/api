@@ -38,7 +38,7 @@ abstract class Id
         return $this->value;
     }
 
-    public function equalsTo(Id $id): bool
+    public function equals(Id $id): bool
     {
         return is_a($id, static::class) && $this->value === $id->value;
     }

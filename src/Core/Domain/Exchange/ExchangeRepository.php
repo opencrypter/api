@@ -12,6 +12,12 @@ interface ExchangeRepository
 
     /**
      * @param ExchangeId $id
+     * @return bool
+     */
+    public function exists(ExchangeId $id): bool;
+
+    /**
+     * @param ExchangeId $id
      * @return Exchange|null
      */
     public function exchangeOfId(ExchangeId $id): ?Exchange;

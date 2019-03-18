@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Domain\Exchange;
+namespace Core\Domain;
 
-use Core\Domain\ValueObject;
+use Core\Domain\Exchange\InvalidName;
 
 final class Name implements ValueObject
 {

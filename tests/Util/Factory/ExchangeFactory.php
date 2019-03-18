@@ -5,8 +5,8 @@ namespace Tests\Util\Factory;
 
 use Core\Domain\Exchange\Exchange;
 use Core\Domain\Exchange\ExchangeId;
-use Core\Domain\Exchange\Name;
 use Core\Domain\Exchange\Symbols;
+use Core\Domain\Name;
 use Faker\Factory;
 
 class ExchangeFactory

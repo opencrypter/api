@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Core\Domain\Exchange;
+namespace Tests\Unit\Core\Domain;
 
 use Core\Domain\Exchange\InvalidName;
-use Core\Domain\Exchange\Name;
+use Core\Domain\Name;
 use Tests\Unit\Core\TestCase;
 
 class NameTest extends TestCase

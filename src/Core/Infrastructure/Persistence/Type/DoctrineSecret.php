@@ -3,29 +3,31 @@ declare(strict_types=1);
 
 namespace Core\Infrastructure\Persistence\Type;
 
-use Core\Domain\Name;
+use Core\Domain\Credentials\Secret;
 use Core\Domain\ValueObject;
 use Core\Infrastructure\Persistence\Type\Scalar\DoctrineString;
 
-class DoctrineName extends DoctrineString
+class DoctrineSecret extends DoctrineString
 {
-    public const NAME = 'name';
-
     /**
+     * Name to be used by Doctrine.
+     *
      * @return string
      */
-    public function name(): string
+    protected function name(): string
     {
-        return self::NAME;
+        return 'secret';
     }
 
     /**
+     * Returns a new value object.
+     *
      * @param string $value
      * @return ValueObject
-     * @throws \Core\Domain\Exchange\InvalidName
+     * @throws \Core\Domain\Credentials\InvalidSecret
      */
     protected function newInstance(string $value): ValueObject
     {
-        return new Name($value);
+        return new Secret($value);
     }
 }
