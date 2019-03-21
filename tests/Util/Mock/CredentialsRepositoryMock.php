@@ -30,4 +30,13 @@ final class CredentialsRepositoryMock extends Mock
 
         return $this;
     }
+
+    public function shouldDelete(Credentials $credentials): self
+    {
+        $this->prophecy()
+            ->delete($credentials)
+            ->shouldBeCalledOnce();
+
+        return $this;
+    }
 }
