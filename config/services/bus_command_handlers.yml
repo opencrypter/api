@@ -8,3 +8,4 @@ services:
   Core\Application\User\CreateUserHandler: ~
   Core\Application\Order\SaveOrderHandler: ~
   Core\Application\Credentials\SaveCredentialsHandler: ~
+  Core\Application\Credentials\DeleteCredentialsHandler: ~

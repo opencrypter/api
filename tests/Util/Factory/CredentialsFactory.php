@@ -20,9 +20,10 @@ class CredentialsFactory
         string $exchangeId,
         string $key,
         string $secret,
-        string $userId
+        string $userId,
+        bool $withoutEvents = false
     ): Credentials {
-        return new Credentials(
+        $credentials = new Credentials(
             new CredentialsId($id),
             new Name($name),
             new ExchangeId($exchangeId),
@@ -30,19 +31,26 @@ class CredentialsFactory
             new Secret($secret),
             new UserId($userId)
         );
+
+        if ($withoutEvents) {
+            $credentials->releaseEvents();
+        }
+
+        return $credentials;
     }
 
-    public static function random(): Credentials
+    public static function random(bool $withoutEvents = false): Credentials
     {
         $faker = Factory::create();
 
-        return new Credentials(
-            new CredentialsId($faker->uuid),
-            new Name($faker->word),
-            new ExchangeId($faker->uuid),
-            new Key($faker->sha256),
-            new Secret($faker->sha256),
-            new UserId($faker->uuid)
+        return self::create(
+            $faker->uuid,
+            $faker->word,
+            $faker->uuid,
+            $faker->sha256,
+            $faker->sha256,
+            $faker->uuid,
+            $withoutEvents
         );
     }
 }

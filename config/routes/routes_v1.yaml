@@ -34,3 +34,8 @@ credentials_put:
     path: /v1/credentials/{id}
     methods: [PUT]
     controller: Core\Ui\Http\SaveCredentialsController::__invoke
+
+credentials_delete:
+    path: /v1/credentials/{id}
+    methods: [DELETE]
+    controller: Core\Ui\Http\DeleteCredentialsController::__invoke

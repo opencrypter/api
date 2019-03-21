@@ -64,14 +64,16 @@ class SaveCredentialsHandlerTest extends TestCase
      */
     public function testUpdateCredentials(): void
     {
-        $existingExchange = CredentialsFactory::random();
+        $existingExchange = CredentialsFactory::random(true);
+
         $updatedExchange = CredentialsFactory::create(
             $existingExchange->id()->value(),
             'My credentials',
             $existingExchange->exchangeId()->value(),
             'Other-key',
             'other-secret',
-            $existingExchange->userId()->value()
+            $existingExchange->userId()->value(),
+            true
         );
 
         $this->exchangeRepositoryMock

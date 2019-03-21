@@ -7,5 +7,7 @@ interface CredentialsRepository
 {
     public function save(Credentials $credentials): void;
 
+    public function delete(Credentials $credentials): void;
+
     public function credentialsOfId(CredentialsId $id): ?Credentials;
 }
