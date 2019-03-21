@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Core\Infrastructure\EventListener;
 
 use Core\Domain\AggregateRoot;
+use Core\Domain\Event\AggregateRootRemoved;
 use Core\Domain\Event\Event;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
@@ -35,7 +36,13 @@ class AggregateRootEventRecorder
      */
     public function postRemove(LifecycleEventArgs $event): void
     {
-        $this->storeEvents($event);
+        $entity = $event->getObject();
+
+        if (!$entity instanceof AggregateRoot) {
+            return;
+        }
+
+        $this->collectedEvents[] = new AggregateRootRemoved($entity->id());
     }
 
     /**

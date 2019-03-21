@@ -77,6 +77,8 @@ class Credentials extends AggregateRoot
         $this->secret     = $secret;
         $this->userId     = $userId;
         $this->createdAt  = CreatedAt::now();
+
+        $this->record(CredentialsCreated::create($this));
     }
 
     /**
