@@ -8,6 +8,8 @@ default:
                       repository: '@Core\Domain\Exchange\ExchangeRepository'
                 - Tests\Util\Context\OrderContext:
                       repository: '@Core\Domain\Order\OrderRepository'
+                - Tests\Util\Context\CredentialsContext:
+                      repository: '@Core\Domain\Credentials\CredentialsRepository'
                 - Tests\Util\Context\FeatureContext:
                     manager: '@doctrine.orm.entity_manager'
                 - Tests\Util\Context\SecurityContext: ~

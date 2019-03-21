@@ -22,6 +22,11 @@ class DoctrineCredentialsRepository extends DoctrineRepository implements Creden
         $this->persistAndFlush($credentials);
     }
 
+    public function delete(Credentials $credentials): void
+    {
+        $this->remove($credentials);
+    }
+
     public function credentialsOfId(CredentialsId $id): ?Credentials
     {
         return $this->repository()->find($id);

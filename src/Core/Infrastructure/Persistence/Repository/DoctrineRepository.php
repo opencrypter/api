@@ -6,7 +6,6 @@ namespace Core\Infrastructure\Persistence\Repository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\Uuid;
 
@@ -51,6 +50,12 @@ abstract class DoctrineRepository
     protected function persistAndFlush($entity): void
     {
         $this->manager()->persist($entity);
+        $this->manager()->flush($entity);
+    }
+
+    protected function remove($entity): void
+    {
+        $this->manager()->remove($entity);
         $this->manager()->flush($entity);
     }
 }
