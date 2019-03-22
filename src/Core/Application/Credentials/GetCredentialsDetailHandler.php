@@ -29,7 +29,7 @@ class GetCredentialsDetailHandler
      * @param GetCredentialsDetail $query
      * @return CredentialsDto
      */
-    public function __invoke(GetCredentialsDetail $query)
+    public function __invoke(GetCredentialsDetail $query): CredentialsDto
     {
         $id     = new CredentialsId($query->id());
         $userId = new UserId($query->userId());
