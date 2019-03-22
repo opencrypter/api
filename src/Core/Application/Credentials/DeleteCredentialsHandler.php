@@ -39,7 +39,7 @@ class DeleteCredentialsHandler
         }
 
         if (!$credentials->userId()->equals($userId)) {
-            throw new CredentialsDoesNotBelongToTheUser($id, $userId);
+            throw new CredentialsDoNotBelongToTheUser($id, $userId);
         }
 
         $this->repository->delete($credentials);

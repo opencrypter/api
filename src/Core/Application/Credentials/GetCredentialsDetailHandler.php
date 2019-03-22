@@ -5,6 +5,7 @@ namespace Core\Application\Credentials;
 
 use Core\Domain\Credentials\CredentialsId;
 use Core\Domain\Credentials\CredentialsRepository;
+use Core\Domain\User\UserId;
 
 class GetCredentialsDetailHandler
 {
@@ -30,10 +31,15 @@ class GetCredentialsDetailHandler
      */
     public function __invoke(GetCredentialsDetail $query)
     {
-        $id = new CredentialsId($query->id());
+        $id     = new CredentialsId($query->id());
+        $userId = new UserId($query->userId());
 
         if (null === $credentials = $this->repository->credentialsOfId($id)) {
             throw new CredentialsNotFound($id);
+        }
+
+        if (!$credentials->userId()->equals($userId)) {
+            throw new CredentialsDoNotBelongToTheUser($id, $userId);
         }
 
         return $this->dtoAssembler->writeDto($credentials);
