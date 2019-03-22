@@ -39,3 +39,8 @@ credentials_delete:
     path: /v1/credentials/{id}
     methods: [DELETE]
     controller: Core\Ui\Http\DeleteCredentialsController::__invoke
+
+credentials_get:
+    path: /v1/credentials/{id}
+    methods: [GET]
+    controller: Core\Ui\Http\GetCredentialsDetailController::__invoke
