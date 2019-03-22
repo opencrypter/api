@@ -5,18 +5,20 @@ namespace Core\Infrastructure\Persistence\Type;
 
 use Core\Domain\Credentials\Key;
 use Core\Domain\ValueObject;
-use Core\Infrastructure\Persistence\Type\Scalar\DoctrineString;
+use Core\Infrastructure\Persistence\Type\Scalar\EncryptedString;
 
-class DoctrineKey extends DoctrineString
+class DoctrineKey extends EncryptedString
 {
+    public const NAME = 'key';
+
     /**
      * Name to be used by Doctrine.
      *
      * @return string
      */
-    protected function name(): string
+    protected static function name(): string
     {
-        return 'key';
+        return self::NAME;
     }
 
     /**

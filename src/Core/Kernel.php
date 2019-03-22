@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use Core\Infrastructure\Persistence\Type\DoctrineKey;
+use Core\Infrastructure\Persistence\Type\DoctrineSecret;
+use Core\Infrastructure\Security\CryptoService;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -46,5 +49,17 @@ class Kernel extends BaseKernel
 
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}/'.$this->environment.'/**/*'.self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function boot()
+    {
+        parent::boot();
+
+        $crypto = $this->getContainer()->get(CryptoService::class);
+        DoctrineKey::load($crypto);
+        DoctrineSecret::load($crypto);
     }
 }

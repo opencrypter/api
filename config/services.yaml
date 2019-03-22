@@ -5,6 +5,7 @@ services:
   _defaults:
     autowire: true
     autoconfigure: true
+    public: true
     bind:
       $queryBus:   '@messenger.bus.query'
       $commandBus: '@messenger.bus.command'
@@ -50,6 +51,10 @@ services:
       - { name: doctrine.event_listener, event: postUpdate }
       - { name: doctrine.event_listener, event: postRemove }
 
+  Core\Infrastructure\Security\CryptoService:
+    arguments:
+      $publicKey: '%env(CRYPTO_PUBLIC_KEY)%'
+      $secretKey: '%env(CRYPTO_SECRET_KEY)%'
 
   # ┌─────────────────────────┐
   # │ UI services             │
