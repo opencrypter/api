@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Core\Application\Credentials;
 
+use Core\Application\Credentials\CredentialsDoNotBelongToTheUser;
 use Core\Application\Credentials\CredentialsDtoAssembler;
 use Core\Application\Credentials\CredentialsNotFound;
 use Core\Application\Credentials\GetCredentialsDetail;
@@ -37,7 +38,10 @@ class GetCredentialsDetailHandlerTest extends TestCase
 
         $this->repositoryMock->shouldFindCredentialsOfId($credentials->id(), $credentials);
 
-        $result = $this->handler->__invoke(new GetCredentialsDetail($credentials->id()->value()));
+        $result = $this->handler->__invoke(new GetCredentialsDetail(
+            $credentials->id()->value(),
+            $credentials->userId()->value()
+        ));
 
         self::assertEquals($this->dtoAssembler->writeDto($credentials), $result);
     }
@@ -51,6 +55,24 @@ class GetCredentialsDetailHandlerTest extends TestCase
 
         $this->repositoryMock->shouldFindCredentialsOfId($credentials->id(), null);
 
-        $this->handler->__invoke(new GetCredentialsDetail($credentials->id()->value()));
+        $this->handler->__invoke(new GetCredentialsDetail(
+            $credentials->id()->value(),
+            $credentials->userId()->value()
+        ));
+    }
+
+    public function testExceptionWhenCredentialsDontBelongToTheUser(): void
+    {
+        $this->expectException(CredentialsDoNotBelongToTheUser::class);
+        $this->expectExceptionCode(409);
+
+        $credentials = CredentialsFactory::random();
+
+        $this->repositoryMock->shouldFindCredentialsOfId($credentials->id(), $credentials);
+
+        $this->handler->__invoke(new GetCredentialsDetail(
+            $credentials->id()->value(),
+            $this->uuid()
+        ));
     }
 }

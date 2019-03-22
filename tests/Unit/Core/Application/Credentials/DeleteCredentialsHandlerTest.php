@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Core\Application\Credentials;
 
-use Core\Application\Credentials\CredentialsDoesNotBelongToTheUser;
+use Core\Application\Credentials\CredentialsDoNotBelongToTheUser;
 use Core\Application\Credentials\CredentialsNotFound;
 use Core\Application\Credentials\DeleteCredentials;
 use Core\Application\Credentials\DeleteCredentialsHandler;
@@ -70,7 +70,7 @@ class DeleteCredentialsHandlerTest extends TestCase
      */
     public function testExceptionWhenCredentialsDoesNotBelongToTheUser(): void
     {
-        $this->expectException(CredentialsDoesNotBelongToTheUser::class);
+        $this->expectException(CredentialsDoNotBelongToTheUser::class);
         $this->expectExceptionCode(409);
 
         $credentials = CredentialsFactory::random();

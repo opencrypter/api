@@ -8,9 +8,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class GetCredentialsDetailController extends Controller
 {
+    /**
+     * @param string $id
+     * @return JsonResponse
+     * @throws Exception\UserNotLogged
+     */
     public function __invoke(string $id): JsonResponse
     {
-        $credentials = $this->handleQuery(new GetCredentialsDetail($id));
+        $credentials = $this->handleQuery(new GetCredentialsDetail($id, $this->currentUserId()));
 
         return new JsonResponse($this->serialize($credentials));
     }

@@ -6,6 +6,7 @@ namespace Tests\Util\Mock;
 use Core\Domain\Credentials\Credentials;
 use Core\Domain\Credentials\CredentialsId;
 use Core\Domain\Credentials\CredentialsRepository;
+use Core\Domain\User\UserId;
 
 /**
  * @method CredentialsRepository reveal
@@ -16,6 +17,16 @@ final class CredentialsRepositoryMock extends Mock
     {
         $this->prophecy()
             ->credentialsOfId($exchangeId)
+            ->willReturn($expected)
+            ->shouldBeCalledOnce();
+
+        return $this;
+    }
+
+    public function shouldFindAllOfUserId(UserId $exchangeId, array $expected): self
+    {
+        $this->prophecy()
+            ->allOfUserId($exchangeId)
             ->willReturn($expected)
             ->shouldBeCalledOnce();
 

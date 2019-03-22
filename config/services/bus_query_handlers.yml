@@ -9,3 +9,4 @@ services:
   Core\Application\Exchange\GetExchangeDetailHandler: ~
   Core\Application\Order\GetOrderHandler: ~
   Core\Application\Credentials\GetCredentialsDetailHandler: ~
+  Core\Application\Credentials\GetAllCredentialsHandler: ~

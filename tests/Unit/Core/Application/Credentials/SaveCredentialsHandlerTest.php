@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Core\Application\Credentials;
 
-use Core\Application\Credentials\CredentialsDoesNotBelongToTheUser;
+use Core\Application\Credentials\CredentialsDoNotBelongToTheUser;
 use Core\Application\Credentials\InvalidExchangeForCredentials;
 use Core\Application\Credentials\SaveCredentials;
 use Core\Application\Credentials\SaveCredentialsHandler;
@@ -121,7 +121,7 @@ class SaveCredentialsHandlerTest extends TestCase
      */
     public function testExceptionWhenCredentialsDoesNotBelongToTheUser(): void
     {
-        $this->expectException(CredentialsDoesNotBelongToTheUser::class);
+        $this->expectException(CredentialsDoNotBelongToTheUser::class);
         $this->expectExceptionCode(409);
 
         $credentials = CredentialsFactory::random();
