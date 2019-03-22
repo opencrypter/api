@@ -13,5 +13,5 @@ interface CredentialsRepository
 
     public function credentialsOfId(CredentialsId $id): ?Credentials;
 
-    public function allOfUserId(UserId $id): array;
+    public function allOfUserId(UserId $userId): array;
 }

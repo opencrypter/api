@@ -6,6 +6,7 @@ namespace Core\Infrastructure\Persistence\Repository;
 use Core\Domain\Credentials\Credentials;
 use Core\Domain\Credentials\CredentialsId;
 use Core\Domain\Credentials\CredentialsRepository;
+use Core\Domain\User\UserId;
 
 class DoctrineCredentialsRepository extends DoctrineRepository implements CredentialsRepository
 {
@@ -30,5 +31,10 @@ class DoctrineCredentialsRepository extends DoctrineRepository implements Creden
     public function credentialsOfId(CredentialsId $id): ?Credentials
     {
         return $this->repository()->find($id);
+    }
+
+    public function allOfUserId(UserId $userId): array
+    {
+        return $this->repository()->findBy(['userId' => $userId]);
     }
 }

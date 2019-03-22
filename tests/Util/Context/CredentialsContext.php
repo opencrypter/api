@@ -66,7 +66,6 @@ class CredentialsContext implements Context
 
             $response = $this->context->sendAJsonRequest('PUT', "/v1/credentials/{$id}", $body);
             Assert::isEmpty($response);
-
         }
     }
 }
