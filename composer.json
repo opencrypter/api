@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-sodium": "*",
         "gesdinet/jwt-refresh-token-bundle": "^0.5.4",
         "justinrainbow/json-schema": "^5.2",
         "lexik/jwt-authentication-bundle": "^2.6",

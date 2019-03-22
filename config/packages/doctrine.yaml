@@ -26,8 +26,6 @@ doctrine:
             value: Core\Infrastructure\Persistence\Type\DoctrineValue
             executed_at: Core\Infrastructure\Persistence\Type\DoctrineExecutedAt
             credentials_id: Core\Infrastructure\Persistence\Type\DoctrineCredentialsId
-            key: Core\Infrastructure\Persistence\Type\DoctrineKey
-            secret: Core\Infrastructure\Persistence\Type\DoctrineSecret
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore

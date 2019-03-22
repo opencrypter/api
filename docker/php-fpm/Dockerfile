@@ -29,6 +29,7 @@ RUN apk add --update \
     php7-dev \
     php7-zip \
     php7-sodium \
+    libsodium-dev \
     make \
     php7-xmlwriter \
     g++ \
@@ -41,6 +42,7 @@ RUN rm -rf /var/cache/apk/* && rm -rf /tmp/* && \
 ADD symfony.ini /etc/php7/php-fpm.d/
 ADD symfony.ini /etc/php7/cli/conf.d/
 ADD xdebug.ini  /etc/php7/conf.d/
+ADD libsodium.ini  /etc/php7/conf.d/
 
 ADD symfony.pool.conf /etc/php7/php-fpm.d/
 
