@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Core\Application\Order;
 
 use Core\Application\Order\GetOrder;
-use Core\Application\Order\GetOrderHandler;
+use Core\Application\Order\GetOrderQueryHandler;
 use Core\Application\Order\OrderDoesNotBelongToTheUser;
 use Core\Application\Order\OrderDtoAssembler;
 use Core\Application\Order\OrderNotFound;
@@ -14,7 +14,7 @@ use Tests\Util\Factory\IdFactory;
 use Tests\Util\Factory\OrderFactory;
 use Tests\Util\Mock\OrderRepositoryMock;
 
-class GetOrderHandlerTest extends TestCase
+class GetOrderQueryHandlerTest extends TestCase
 {
     /**
      * @var OrderRepositoryMock
@@ -27,7 +27,7 @@ class GetOrderHandlerTest extends TestCase
     private $dtoAssembler;
 
     /**
-     * @var GetOrderHandler
+     * @var GetOrderQueryHandler
      */
     private $handler;
 
@@ -35,7 +35,8 @@ class GetOrderHandlerTest extends TestCase
     {
         $this->orderRepositoryMock = new OrderRepositoryMock($this->prophesize(OrderRepository::class));
         $this->dtoAssembler        = new OrderDtoAssembler();
-        $this->handler             = new GetOrderHandler($this->orderRepositoryMock->reveal(), $this->dtoAssembler);
+
+        $this->handler = new GetOrderQueryHandler($this->orderRepositoryMock->reveal(), $this->dtoAssembler);
     }
 
     /**

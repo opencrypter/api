@@ -15,9 +15,8 @@ services:
   # ┌─────────────────────────┐
   # │ Application services    │
   # └─────────────────────────┘
-  Core\Application\Exchange\ExchangeDtoAssembler: ~
-  Core\Application\Order\OrderDtoAssembler: ~
-  Core\Application\Credentials\CredentialsDtoAssembler: ~
+  Core\Application\:
+    resource: '../src/Core/Application/*/*DtoAssembler.php'
 
   # ┌─────────────────────────┐
   # │ Domain services         │
@@ -35,7 +34,8 @@ services:
   Core\Infrastructure\Persistence\Repository\:
     resource: '../src/Core/Infrastructure/Persistence/Repository'
 
-  Core\Infrastructure\Factory\UserFactory: ~
+  Core\Infrastructure\Factory\:
+    resource: '../src/Core/Infrastructure/Factory'
 
   Core\Infrastructure\Messaging\CommandBus\DomainEventsMiddleware: ~
 

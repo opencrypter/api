@@ -6,13 +6,13 @@ namespace Tests\Unit\Core\Application\Credentials;
 use Core\Application\Credentials\CredentialsDoNotBelongToTheUser;
 use Core\Application\Credentials\CredentialsNotFound;
 use Core\Application\Credentials\DeleteCredentials;
-use Core\Application\Credentials\DeleteCredentialsHandler;
+use Core\Application\Credentials\DeleteCredentialsCommandHandler;
 use Core\Domain\Credentials\CredentialsRepository;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\CredentialsFactory;
 use Tests\Util\Mock\CredentialsRepositoryMock;
 
-class DeleteCredentialsHandlerTest extends TestCase
+class DeleteCredentialsCommandHandlerTest extends TestCase
 {
     private $credentialsRepositoryMock;
 
@@ -24,7 +24,7 @@ class DeleteCredentialsHandlerTest extends TestCase
             $this->prophesize(CredentialsRepository::class)
         );
 
-        $this->handler = new DeleteCredentialsHandler(
+        $this->handler = new DeleteCredentialsCommandHandler(
             $this->credentialsRepositoryMock->reveal()
         );
     }

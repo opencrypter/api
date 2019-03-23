@@ -7,13 +7,13 @@ use Core\Application\Credentials\CredentialsDoNotBelongToTheUser;
 use Core\Application\Credentials\CredentialsDtoAssembler;
 use Core\Application\Credentials\CredentialsNotFound;
 use Core\Application\Credentials\GetCredentialsDetail;
-use Core\Application\Credentials\GetCredentialsDetailHandler;
+use Core\Application\Credentials\GetCredentialsDetailQueryHandler;
 use Core\Domain\Credentials\CredentialsRepository;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\CredentialsFactory;
 use Tests\Util\Mock\CredentialsRepositoryMock;
 
-class GetCredentialsDetailHandlerTest extends TestCase
+class GetCredentialsDetailQueryHandlerTest extends TestCase
 {
     private $repositoryMock;
 
@@ -26,7 +26,7 @@ class GetCredentialsDetailHandlerTest extends TestCase
         $this->repositoryMock = new CredentialsRepositoryMock($this->prophesize(CredentialsRepository::class));
         $this->dtoAssembler   = new CredentialsDtoAssembler();
 
-        $this->handler = new GetCredentialsDetailHandler(
+        $this->handler = new GetCredentialsDetailQueryHandler(
             $this->repositoryMock->reveal(),
             $this->dtoAssembler
         );

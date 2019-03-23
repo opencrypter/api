@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Core\Application\Exchange;
 
-use Core\Domain\Exchange\ExchangeId;
+use Core\Domain\Exchange\Exchange;
 use Core\Domain\Exchange\ExchangeRepository;
 
-class GetExchangeDetailHandler
+class GetAllAvailableExchangesQueryHandler
 {
     /**
      * @var ExchangeRepository
@@ -19,7 +19,7 @@ class GetExchangeDetailHandler
     private $dtoAssembler;
 
     /**
-     * GetExchangeDetailHandler constructor.
+     * GetAllAvailableExchangesHandler constructor.
      *
      * @param ExchangeRepository   $repository
      * @param ExchangeDtoAssembler $dtoAssembler
@@ -30,20 +30,12 @@ class GetExchangeDetailHandler
         $this->dtoAssembler = $dtoAssembler;
     }
 
-    /**
-     * @param GetExchangeDetail $query
-     * @return ExchangeDto
-     * @throws ExchangeNotFound
-     */
-    public function __invoke(GetExchangeDetail $query): ExchangeDto
+    public function __invoke(GetAllAvailableExchanges $query): array
     {
-        $exchangeId = new ExchangeId($query->exchangeId());
+        $exchanges = $this->repository->all();
 
-        $exchange = $this->repository->exchangeOfId($exchangeId);
-        if ($exchange === null) {
-            throw ExchangeNotFound::create($exchangeId);
-        }
-
-        return $this->dtoAssembler->writeDto($exchange);
+        return array_map(function (Exchange $exchange) {
+            return $this->dtoAssembler->writeDto($exchange);
+        }, $exchanges);
     }
 }

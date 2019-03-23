@@ -5,13 +5,13 @@ namespace Tests\Unit\Core\Application\Exchange;
 
 use Core\Application\Exchange\ExchangeDtoAssembler;
 use Core\Application\Exchange\GetAllAvailableExchanges;
-use Core\Application\Exchange\GetAllAvailableExchangesHandler;
+use Core\Application\Exchange\GetAllAvailableExchangesQueryHandler;
 use Core\Domain\Exchange\ExchangeRepository;
+use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\ExchangeFactory;
 use Tests\Util\Mock\ExchangeRepositoryMock;
-use Tests\Unit\Core\TestCase;
 
-class GetAllAvailableExchangesHandlerTest extends TestCase
+class GetAllAvailableExchangesQueryHandlerTest extends TestCase
 {
     private $mockedRepository;
     private $assembler;
@@ -21,7 +21,7 @@ class GetAllAvailableExchangesHandlerTest extends TestCase
     {
         $this->mockedRepository = new ExchangeRepositoryMock($this->prophesize(ExchangeRepository::class));
         $this->assembler = new ExchangeDtoAssembler();
-        $this->handler = new GetAllAvailableExchangesHandler($this->mockedRepository->reveal(), $this->assembler);
+        $this->handler = new GetAllAvailableExchangesQueryHandler($this->mockedRepository->reveal(), $this->assembler);
     }
 
     /**

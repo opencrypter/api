@@ -7,7 +7,7 @@ use Core\Domain\Credentials\Credentials;
 use Core\Domain\Credentials\CredentialsRepository;
 use Core\Domain\User\UserId;
 
-class GetAllCredentialsHandler
+class GetAllCredentialsQueryHandler
 {
     /**
      * @var CredentialsRepository
