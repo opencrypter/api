@@ -6,13 +6,13 @@ namespace Tests\Unit\Core\Application\Exchange;
 use Core\Application\Exchange\ExchangeDtoAssembler;
 use Core\Application\Exchange\ExchangeNotFound;
 use Core\Application\Exchange\GetExchangeDetail;
-use Core\Application\Exchange\GetExchangeDetailHandler;
+use Core\Application\Exchange\GetExchangeDetailQueryHandler;
 use Core\Domain\Exchange\ExchangeRepository;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\ExchangeFactory;
 use Tests\Util\Mock\ExchangeRepositoryMock;
 
-class GetExchangeDetailHandlerTest extends TestCase
+class GetExchangeDetailQueryHandlerTest extends TestCase
 {
     private $mockedRepository;
     private $assembler;
@@ -22,7 +22,7 @@ class GetExchangeDetailHandlerTest extends TestCase
     {
         $this->mockedRepository = new ExchangeRepositoryMock($this->prophesize(ExchangeRepository::class));
         $this->assembler = new ExchangeDtoAssembler();
-        $this->handler = new GetExchangeDetailHandler($this->mockedRepository->reveal(), $this->assembler);
+        $this->handler = new GetExchangeDetailQueryHandler($this->mockedRepository->reveal(), $this->assembler);
     }
 
     /**

@@ -7,7 +7,7 @@ use Core\Domain\Credentials\CredentialsId;
 use Core\Domain\Credentials\CredentialsRepository;
 use Core\Domain\User\UserId;
 
-class DeleteCredentialsHandler
+class DeleteCredentialsCommandHandler
 {
     /**
      * @var CredentialsRepository

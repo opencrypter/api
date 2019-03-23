@@ -13,7 +13,7 @@ use Core\Domain\Exchange\ExchangeRepository;
 use Core\Domain\Name;
 use Core\Domain\User\UserId;
 
-class SaveCredentialsHandler
+class SaveCredentialsCommandHandler
 {
     /**
      * @var CredentialsRepository

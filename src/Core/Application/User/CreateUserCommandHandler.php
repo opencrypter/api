@@ -8,7 +8,7 @@ use Core\Domain\User\PlainPassword;
 use Core\Domain\User\UserFactory;
 use Core\Domain\User\UserRepository;
 
-class CreateUserHandler
+class CreateUserCommandHandler
 {
     /**
      * @var UserRepository

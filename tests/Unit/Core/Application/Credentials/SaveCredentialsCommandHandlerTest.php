@@ -6,7 +6,7 @@ namespace Tests\Unit\Core\Application\Credentials;
 use Core\Application\Credentials\CredentialsDoNotBelongToTheUser;
 use Core\Application\Credentials\InvalidExchangeForCredentials;
 use Core\Application\Credentials\SaveCredentials;
-use Core\Application\Credentials\SaveCredentialsHandler;
+use Core\Application\Credentials\SaveCredentialsCommandHandler;
 use Core\Domain\Credentials\CredentialsRepository;
 use Core\Domain\Exchange\ExchangeRepository;
 use Tests\Unit\Core\TestCase;
@@ -14,7 +14,7 @@ use Tests\Util\Factory\CredentialsFactory;
 use Tests\Util\Mock\CredentialsRepositoryMock;
 use Tests\Util\Mock\ExchangeRepositoryMock;
 
-class SaveCredentialsHandlerTest extends TestCase
+class SaveCredentialsCommandHandlerTest extends TestCase
 {
     private $credentialsRepositoryMock;
 
@@ -29,7 +29,7 @@ class SaveCredentialsHandlerTest extends TestCase
             $this->prophesize(CredentialsRepository::class)
         );
 
-        $this->handler = new SaveCredentialsHandler(
+        $this->handler = new SaveCredentialsCommandHandler(
             $this->credentialsRepositoryMock->reveal(),
             $this->exchangeRepositoryMock->reveal()
         );

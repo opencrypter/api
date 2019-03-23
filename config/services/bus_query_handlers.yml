@@ -5,8 +5,6 @@ services:
     public: true
     tags: [{ name: messenger.message_handler, bus: messenger.bus.query }]
 
-  Core\Application\Exchange\GetAllAvailableExchangesHandler: ~
-  Core\Application\Exchange\GetExchangeDetailHandler: ~
-  Core\Application\Order\GetOrderHandler: ~
-  Core\Application\Credentials\GetCredentialsDetailHandler: ~
-  Core\Application\Credentials\GetAllCredentialsHandler: ~
+  Core\Application\:
+    resource: '../../src/Core/Application/*/*QueryHandler.php'
+

@@ -5,7 +5,5 @@ services:
     public: true
     tags: [{ name: messenger.message_handler, bus: messenger.bus.command }]
 
-  Core\Application\User\CreateUserHandler: ~
-  Core\Application\Order\SaveOrderHandler: ~
-  Core\Application\Credentials\SaveCredentialsHandler: ~
-  Core\Application\Credentials\DeleteCredentialsHandler: ~
+  Core\Application\:
+    resource: '../../src/Core/Application/*/*CommandHandler.php'

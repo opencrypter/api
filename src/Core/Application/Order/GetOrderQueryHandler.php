@@ -7,7 +7,7 @@ use Core\Domain\Order\OrderId;
 use Core\Domain\Order\OrderRepository;
 use Core\Domain\User\UserId;
 
-class GetOrderHandler
+class GetOrderQueryHandler
 {
     /**
      * @var OrderRepository

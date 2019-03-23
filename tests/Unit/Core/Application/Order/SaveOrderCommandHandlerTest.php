@@ -5,14 +5,14 @@ namespace Tests\Unit\Core\Application\Order;
 
 use Core\Application\Order\OrderDoesNotBelongToTheUser;
 use Core\Application\Order\SaveOrder;
-use Core\Application\Order\SaveOrderHandler;
+use Core\Application\Order\SaveOrderCommandHandler;
 use Core\Domain\Order\OrderRepository;
 use Tests\Unit\Core\TestCase;
 use Tests\Util\Factory\OrderFactory;
 use Tests\Util\Factory\StepFactory;
 use Tests\Util\Mock\OrderRepositoryMock;
 
-class SaveOrderHandlerTest extends TestCase
+class SaveOrderCommandHandlerTest extends TestCase
 {
     /**
      * @var OrderRepositoryMock
@@ -20,14 +20,14 @@ class SaveOrderHandlerTest extends TestCase
     private $orderRepositoryMock;
 
     /**
-     * @var SaveOrderHandler
+     * @var SaveOrderCommandHandler
      */
     private $handler;
 
     protected function setUp()
     {
         $this->orderRepositoryMock = new OrderRepositoryMock($this->prophesize(OrderRepository::class));
-        $this->handler             = new SaveOrderHandler($this->orderRepositoryMock->reveal());
+        $this->handler             = new SaveOrderCommandHandler($this->orderRepositoryMock->reveal());
     }
 
     /**

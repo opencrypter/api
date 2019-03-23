@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Core\Application\User;
 
 use Core\Application\User\CreateUser;
-use Core\Application\User\CreateUserHandler;
+use Core\Application\User\CreateUserCommandHandler;
 use Core\Application\User\DuplicatedUser;
 use Core\Domain\User\InvalidEmail;
 use Core\Domain\User\InvalidPassword;
@@ -14,12 +14,7 @@ use Tests\Util\Dummy\UserPasswordEncoder;
 use Tests\Util\Factory\UserFactory;
 use Tests\Util\Mock\UserRepositoryMock;
 
-/**
- * Class CreateUserHandlerTest
- *
- * @package Tests\Unit\Core\Application\User
- */
-class CreateUserHandlerTest extends TestCase
+class CreateUserCommandHandlerTest extends TestCase
 {
     private $repositoryMock;
 
@@ -29,7 +24,7 @@ class CreateUserHandlerTest extends TestCase
     {
         $this->repositoryMock = new UserRepositoryMock($this->prophesize(UserRepository::class));
 
-        $this->handler = new CreateUserHandler(
+        $this->handler = new CreateUserCommandHandler(
             $this->repositoryMock->reveal(),
             new \Core\Infrastructure\Factory\UserFactory(new UserPasswordEncoder())
         );

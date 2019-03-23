@@ -14,7 +14,7 @@ use Core\Domain\Order\Step\Value;
 use Core\Domain\Symbol;
 use Core\Domain\User\UserId;
 
-class SaveOrderHandler
+class SaveOrderCommandHandler
 {
     /**
      * @var OrderRepository
