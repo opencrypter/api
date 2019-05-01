@@ -10,9 +10,6 @@ Feature: Get an order
     And the order with id "6e7f1715-84c2-4dab-b690-969af78a063c" and the next steps:
       | position | type | exchangeId                             | symbol | value |
       | 1        | buy  | 6e7f1715-84c2-4dab-b690-969af78a063c   | BTCUSD | 1.54  |
-    And the order with id "5ec52afb-5f18-48fa-bfb0-0362cbe376ab" and the next steps:
-      | position | type | exchangeId                             | symbol | value |
-      | 1        | buy  | 6e7f1715-84c2-4dab-b690-969af78a063c   | ETHUSD | 3     |
 
   @login @logout
   Scenario: The order exists
@@ -21,19 +18,6 @@ Feature: Get an order
     And the JSON should be equal to:
     """
     [
-    {
-        "id": "5ec52afb-5f18-48fa-bfb0-0362cbe376ab",
-        "steps": [
-            {
-                "position": 1,
-                "type": "buy",
-                "exchangeId": "6e7f1715-84c2-4dab-b690-969af78a063c",
-                "symbol": "ETHUSD",
-                "value": 3,
-                "dependsOf": null
-            }
-        ]
-      },
       {
         "id": "6e7f1715-84c2-4dab-b690-969af78a063c",
         "steps": [
