@@ -1,19 +1,30 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Infrastructure\EventListener;
+namespace Core\Infrastructure\EventSubscriber\Doctrine;
 
 use Core\Domain\AggregateRoot;
 use Core\Domain\Event\AggregateRootRemoved;
 use Core\Domain\Event\Event;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 
-class AggregateRootEventRecorder
+class AggregateRootEventSubscriber implements EventSubscriber
 {
     /**
      * @var Event[]
      */
     private $collectedEvents = [];
+
+    public function getSubscribedEvents(): array
+    {
+        return [
+            Events::postPersist,
+            Events::postUpdate,
+            Events::postRemove,
+        ];
+    }
 
     /**
      * @param LifecycleEventArgs $event

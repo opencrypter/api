@@ -5,4 +5,5 @@ services:
     public: true
     tags: [{ name: messenger.message_handler, bus: messenger.bus.events }]
 
-  Core\Infrastructure\Messaging\EventBus\DomainEventHandler: ~
+  Core\Infrastructure\EventSubscriber\Domain\:
+    resource: '../../src/Core/Infrastructure/EventSubscriber/Domain/*'

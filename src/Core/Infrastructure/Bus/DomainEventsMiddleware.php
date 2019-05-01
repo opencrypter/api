@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Infrastructure\Messaging\CommandBus;
+namespace Core\Infrastructure\Bus;
 
-use Core\Infrastructure\EventListener\AggregateRootEventRecorder;
+use Core\Infrastructure\EventSubscriber\Doctrine\AggregateRootEventSubscriber;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\MiddlewareInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Messenger\Middleware\StackInterface;
 class DomainEventsMiddleware implements MiddlewareInterface
 {
     /**
-     * @var AggregateRootEventRecorder
+     * @var AggregateRootEventSubscriber
      */
     private $eventRecorder;
 
@@ -21,7 +21,7 @@ class DomainEventsMiddleware implements MiddlewareInterface
      */
     private $eventBus;
 
-    public function __construct(MessageBusInterface $eventBus, AggregateRootEventRecorder $eventRecorder)
+    public function __construct(MessageBusInterface $eventBus, AggregateRootEventSubscriber $eventRecorder)
     {
         $this->eventRecorder = $eventRecorder;
         $this->eventBus = $eventBus;
