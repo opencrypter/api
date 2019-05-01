@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Core\Infrastructure\Messaging\EventBus;
+namespace Core\Infrastructure\EventSubscriber\Domain;
 
 use Core\Domain\Event\Event;
 use Core\Domain\Event\EventStore;
 
-class DomainEventHandler
+class DomainEventSubscriber
 {
     /**
      * @var EventStore

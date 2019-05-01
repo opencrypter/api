@@ -38,21 +38,14 @@ services:
   Core\Infrastructure\Factory\:
     resource: '../src/Core/Infrastructure/Factory'
 
-  Core\Infrastructure\Messaging\CommandBus\DomainEventsMiddleware: ~
+  Core\Infrastructure\Bus\:
+    resource: '../src/Core/Infrastructure/Bus'
 
-  Core\Infrastructure\EventListener\ExceptionListener:
-    tags: [{ name: kernel.event_listener, event: kernel.exception }]
-
-  Core\Infrastructure\Security\JwtEventListener:
-    tags: [{ name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: handle  }]
-
-  Core\Infrastructure\EventListener\AggregateRootEventRecorder:
-    tags:
-      - { name: doctrine.event_listener, event: postPersist }
-      - { name: doctrine.event_listener, event: postUpdate }
-      - { name: doctrine.event_listener, event: postRemove }
+  Core\Infrastructure\EventSubscriber\:
+    resource: '../src/Core/Infrastructure/EventSubscriber/*'
 
   React\EventLoop\Factory: ~
+
   websocket_stream_loop:
     class: 'React\EventLoop\LoopInterface'
     factory: 'React\EventLoop\Factory:create'
