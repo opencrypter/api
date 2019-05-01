@@ -45,7 +45,7 @@ class GetOrderQueryHandler
         $order = $this->repository->orderOfId($orderId);
 
         if ($order === null) {
-            throw OrderNotFound::create($orderId);
+            throw new OrderNotFound($orderId);
         }
 
         if (!$order->belongsTo($userId)) {

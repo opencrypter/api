@@ -41,4 +41,13 @@ class OrderRepositoryMock extends Mock
 
         return $this;
     }
+
+    public function shouldDelete(Order $order): self
+    {
+        $this->prophecy()
+            ->delete($order)
+            ->shouldBeCalled();
+
+        return $this;
+    }
 }

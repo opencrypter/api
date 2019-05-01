@@ -23,4 +23,9 @@ interface OrderRepository
      * @param Order $order
      */
     public function save(Order $order): void;
+
+    /**
+     * @param Order $order
+     */
+    public function delete(Order $order): void;
 }
