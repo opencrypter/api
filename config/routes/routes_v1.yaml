@@ -30,6 +30,11 @@ orders_get:
     methods: [GET]
     controller: Core\Ui\Http\GetOrderController::__invoke
 
+orders_all:
+    path: /v1/orders
+    methods: [GET]
+    controller: Core\Ui\Http\GetAllOrdersController::__invoke
+
 credentials_put:
     path: /v1/credentials/{id}
     methods: [PUT]

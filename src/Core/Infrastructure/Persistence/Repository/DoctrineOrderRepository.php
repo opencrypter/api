@@ -30,7 +30,9 @@ class DoctrineOrderRepository extends DoctrineRepository implements OrderReposit
      */
     public function ordersOfUserId(UserId $userId): array
     {
-        return $this->repository()->findBy(['userId' => $userId]);
+        return $this
+            ->repository()
+            ->findBy(['userId' => $userId], ['createdAt' => 'DESC']);
     }
 
     /**
