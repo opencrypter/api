@@ -58,6 +58,7 @@ class OrderFactory
     {
         return clone $order;
     }
+
     public static function withSteps(array $steps): Order
     {
         $faker = Factory::create();

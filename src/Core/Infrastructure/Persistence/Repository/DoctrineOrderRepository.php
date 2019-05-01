@@ -6,6 +6,7 @@ namespace Core\Infrastructure\Persistence\Repository;
 use Core\Domain\Order\Order;
 use Core\Domain\Order\OrderId;
 use Core\Domain\Order\OrderRepository;
+use Core\Domain\User\UserId;
 
 class DoctrineOrderRepository extends DoctrineRepository implements OrderRepository
 {
@@ -21,6 +22,15 @@ class DoctrineOrderRepository extends DoctrineRepository implements OrderReposit
     public function orderOfId(OrderId $id): ?Order
     {
         return $this->repository()->find($id);
+    }
+
+    /**
+     * @param UserId $userId
+     * @return Order[]
+     */
+    public function ordersOfUserId(UserId $userId): array
+    {
+        return $this->repository()->findBy(['userId' => $userId]);
     }
 
     /**
