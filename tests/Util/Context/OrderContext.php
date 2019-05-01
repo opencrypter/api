@@ -55,6 +55,19 @@ class OrderContext implements Context
     }
 
     /**
+     * @Given the order with id :id does not exist
+     *
+     * @param string $id
+     * @throws \Exception
+     */
+    public function theOrderDoesNotExist(string $id): void
+    {
+        $response = $this->context->sendAJsonRequest('GET', "/v1/orders/{$id}");
+
+        Assert::assertArrayHasKey('message', $response);
+    }
+
+    /**
      * @Given the order with id :id and the next steps:
      *
      * @param string    $id

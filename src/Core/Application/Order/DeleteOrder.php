@@ -19,6 +19,7 @@ class DeleteOrder
      * DeleteOrder constructor.
      *
      * @param string $id
+     * @param string $userId
      */
     public function __construct(string $id, string $userId)
     {

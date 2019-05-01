@@ -25,6 +25,11 @@ orders_put:
     methods: [PUT]
     controller: Core\Ui\Http\PutOrderController::__invoke
 
+orders_delete:
+    path: /v1/orders/{id}
+    methods: [DELETE]
+    controller: Core\Ui\Http\DeleteOrderController::__invoke
+
 orders_get:
     path: /v1/orders/{id}
     methods: [GET]
