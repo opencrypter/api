@@ -21,9 +21,9 @@ class PutOrderController extends Controller
      */
     public function __invoke(Request $request, string $id)
     {
-        $this->validate($request, 'Order');
+        $this->validate('Order', $request);
 
-        $body = \json_decode($request->getContent(), true);
+        $body = json_decode($request->getContent(), true);
 
         $this->handleCommand(new SaveOrder($id, $this->currentUserId(), $body['steps']));
 

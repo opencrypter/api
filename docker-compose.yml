@@ -16,6 +16,7 @@ services:
     depends_on:
       - "db"
       - "server"
+      - "redis"
     ports:
       - "9000:9000"
     volumes:
@@ -28,13 +29,21 @@ services:
     restart: always
     ports:
       - "8080:80"
+      - "8081:8081"
+  redis:
+    image: redis
+    container_name: opencrypter-redis
+    restart: always
+    ports:
+      - "6379:6379"
 
   start_dependencies:
     image: dadarek/wait-for-dependencies
     depends_on:
       - 'server'
       - 'db'
+      - 'redis'
       - 'php'
-    command: db:5432 server:80
+    command: db:5432 server:80 redis:6379
     environment:
       SLEEP_LENGTH: 0.5
