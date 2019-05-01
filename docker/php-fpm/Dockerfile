@@ -13,7 +13,6 @@ RUN apk add --update \
     php7-intl \
     php7-mcrypt \
     php7-opcache \
-    php7-openssl \
     php7-mbstring \
     php7-pdo \
     php7-pdo_pgsql \
@@ -29,6 +28,7 @@ RUN apk add --update \
     php7-dev \
     php7-zip \
     php7-sodium \
+    php7-redis \
     libsodium-dev \
     make \
     php7-xmlwriter \

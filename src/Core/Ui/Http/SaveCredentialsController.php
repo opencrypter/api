@@ -19,9 +19,9 @@ class SaveCredentialsController extends Controller
      */
     public function __invoke(Request $request, string $id): JsonResponse
     {
-        $this->validate($request, 'Credentials');
+        $this->validate('Credentials', $request);
 
-        $body = \json_decode($request->getContent(), true);
+        $body = json_decode($request->getContent(), true);
 
         $this->handleCommand(new SaveCredentials(
             $id,

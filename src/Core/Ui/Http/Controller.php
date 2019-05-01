@@ -6,7 +6,7 @@ namespace Core\Ui\Http;
 use Core\Infrastructure\Security\UserCredentials;
 use Core\Ui\Http\Exception\BadRequest;
 use Core\Ui\Http\Exception\UserNotLogged;
-use JsonSchema\Validator;
+use Core\Ui\JsonSchema\JsonSchemaValidator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
@@ -36,23 +36,22 @@ abstract class Controller
     private $security;
 
     /**
-     * Controller constructor.
-     *
-     * @param MessageBus          $queryBus
-     * @param MessageBus          $commandBus
-     * @param SerializerInterface $serializer
-     * @param Security            $security
+     * @var JsonSchemaValidator
      */
+    private $jsonSchemaValidator;
+
     public function __construct(
         MessageBus $queryBus,
         MessageBus $commandBus,
         SerializerInterface $serializer,
-        Security $security
+        Security $security,
+        JsonSchemaValidator $jsonSchemaValidator
     ) {
-        $this->queryBus   = $queryBus;
-        $this->commandBus = $commandBus;
-        $this->serializer = $serializer;
-        $this->security   = $security;
+        $this->queryBus            = $queryBus;
+        $this->commandBus          = $commandBus;
+        $this->serializer          = $serializer;
+        $this->security            = $security;
+        $this->jsonSchemaValidator = $jsonSchemaValidator;
     }
 
     /**
@@ -98,26 +97,18 @@ abstract class Controller
     {
         $serialized = $this->serializer->serialize($any, $format);
 
-        return \json_decode($serialized, true);
+        return json_decode($serialized, true);
     }
 
     /**
+     * @param string  $type
      * @param Request $request
-     * @param string  $model
+     *
      * @throws BadRequest
      */
-    protected function validate(Request $request, string $model): void
+    protected function validate(string $type, Request $request): void
     {
-        $validator = new Validator();
-
-        $body       = \json_decode($request->getContent());
-        $jsonSchema = __DIR__ . "/json-schema/{$model}.json";
-
-        $validator->validate($body, (object) ['$ref' => "file://{$jsonSchema}"]);
-
-        if (!$validator->isValid()) {
-            throw BadRequest::createWithErrors($validator->getErrors());
-        }
+        $this->jsonSchemaValidator->validate($type, $request->getContent());
     }
 
     /**

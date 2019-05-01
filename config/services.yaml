@@ -11,6 +11,7 @@ services:
       $commandBus: '@messenger.bus.command'
       $eventBus: '@messenger.bus.events'
       $passwordEncoder: '@security.password_encoder'
+      $wsRedisClient: '@websocket_redis_client'
 
   # ┌─────────────────────────┐
   # │ Application services    │
@@ -51,6 +52,17 @@ services:
       - { name: doctrine.event_listener, event: postUpdate }
       - { name: doctrine.event_listener, event: postRemove }
 
+  React\EventLoop\Factory: ~
+  websocket_stream_loop:
+    class: 'React\EventLoop\LoopInterface'
+    factory: 'React\EventLoop\Factory:create'
+
+  websocket_redis_client:
+    class: Predis\Async\Client
+    arguments:
+      - '%env(REDIS_WS_URL)%'
+      - '@websocket_stream_loop'
+
   Core\Infrastructure\Security\CryptoService:
     arguments:
       $publicKey: '%env(CRYPTO_PUBLIC_KEY)%'
@@ -59,7 +71,11 @@ services:
   # ┌─────────────────────────┐
   # │ UI services             │
   # └─────────────────────────┘
-  Core\Ui\Http\:
-    resource: '../src/Core/Ui/Http'
-    exclude: '../src/Core/Ui/Http/{Exception}'
-    tags: ['controller.service_arguments']
+  Core\Ui\:
+    resource: '../src/Core/Ui/*'
+    exclude: '../src/Core/Ui/*/{Exception}'
+
+  Core\Ui\Command\:
+    resource: '../src/Core/Ui/Command'
+    tags:
+      - { name: console.command }
