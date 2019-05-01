@@ -47,4 +47,13 @@ class DoctrineOrderRepository extends DoctrineRepository implements OrderReposit
         $this->manager()->persist($order);
         $this->manager()->flush($order);
     }
+
+    /**
+     * @param Order $order
+     */
+    public function delete(Order $order): void
+    {
+        $this->manager()->remove($order);
+        $this->manager()->flush($order);
+    }
 }

@@ -156,6 +156,20 @@ class Order extends AggregateRoot
     }
 
     /**
+     * @return bool
+     */
+    public function hasExecutedSteps(): bool
+    {
+        foreach ($this->steps() as $step) {
+            if ($step->hasBeenExecuted()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @return CreatedAt
      */
     public function createdAt(): CreatedAt

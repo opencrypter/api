@@ -12,7 +12,7 @@ Feature: Get an order
       | 1        | buy  | 6e7f1715-84c2-4dab-b690-969af78a063c   | BTCUSD | 1.54  |
 
   @login @logout
-  Scenario: The order exists
+  Scenario: There are orders
     When I send a "GET" request to "v1/orders"
     Then the response should be in JSON
     And the JSON should be equal to:
