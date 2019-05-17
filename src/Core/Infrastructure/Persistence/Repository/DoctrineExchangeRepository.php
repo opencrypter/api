@@ -6,6 +6,7 @@ namespace Core\Infrastructure\Persistence\Repository;
 use Core\Domain\Exchange\Exchange;
 use Core\Domain\Exchange\ExchangeId;
 use Core\Domain\Exchange\ExchangeRepository;
+use Core\Domain\Name;
 
 class DoctrineExchangeRepository extends DoctrineRepository implements ExchangeRepository
 {
@@ -31,6 +32,15 @@ class DoctrineExchangeRepository extends DoctrineRepository implements ExchangeR
     public function exchangeOfId(ExchangeId $id): ?Exchange
     {
         return $this->repository()->find($id);
+    }
+
+    /**
+     * @param Name $name
+     * @return Exchange|null
+     */
+    public function exchangeOfName(Name $name): ?Exchange
+    {
+        return $this->repository()->findOneBy(['name' => $name]);
     }
 
     /**

@@ -11,20 +11,35 @@ use Faker\Factory;
 
 class ExchangeFactory
 {
+    private static function randomNullable(?string $id, ?string $name, ?array $symbols): Exchange
+    {
+        $faker = Factory::create();
+
+        $symbols = $symbols
+            ?? $faker->randomElements(
+                ['BTCUSD', 'ETHUSD', 'XRPUSD', 'XEMUSD'],
+                $faker->numberBetween(1, 4)
+            );
+
+        return new Exchange(
+            new ExchangeId($id ?? $faker->uuid),
+            new Name($name ?? $faker->name),
+            new Symbols($symbols)
+        );
+    }
+
     public static function create(string $id, string $name, array $symbols): Exchange
     {
-        return new Exchange(new ExchangeId($id), new Name($name), new Symbols($symbols));
+        return self::randomNullable($id, $name, $symbols);
     }
 
     public static function random(): Exchange
     {
-        $faker = Factory::create();
+        return self::randomNullable(null, null, null);
+    }
 
-        $symbols = $faker->randomElements(
-            ['BTCUSD', 'ETHUSD', 'XRPUSD', 'XEMUSD'],
-            $faker->numberBetween(1, 4)
-        );
-
-        return self::create($faker->uuid, $faker->name, $symbols);
+    public static function withName(string $name): Exchange
+    {
+        return self::randomNullable(null, $name, null);
     }
 }

@@ -41,7 +41,7 @@ class GetExchangeDetailQueryHandler
 
         $exchange = $this->repository->exchangeOfId($exchangeId);
         if ($exchange === null) {
-            throw ExchangeNotFound::create($exchangeId);
+            throw ExchangeNotFound::createWithId($exchangeId);
         }
 
         return $this->dtoAssembler->writeDto($exchange);
