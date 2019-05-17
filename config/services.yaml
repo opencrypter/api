@@ -12,6 +12,7 @@ services:
       $eventBus: '@messenger.bus.events'
       $passwordEncoder: '@security.password_encoder'
       $wsRedisClient: '@websocket_redis_client'
+      $apis: []
 
   # ┌─────────────────────────┐
   # │ Application services    │
@@ -28,6 +29,8 @@ services:
   Core\Domain\Exchange\ExchangeRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineExchangeRepository'
   Core\Domain\Order\OrderRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineOrderRepository'
   Core\Domain\Credentials\CredentialsRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineCredentialsRepository'
+  Core\Domain\Ticker\TickerRepository: '@Core\Infrastructure\Persistence\Repository\DoctrineTickerRepository'
+  Core\Application\Ticker\TickerApiFactory: '@Core\Infrastructure\Factory\TickerApiFactory'
 
   # ┌─────────────────────────┐
   # │ Infrastructure services │
