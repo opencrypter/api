@@ -34,6 +34,6 @@ Feature: Get the detail of an exchange
     And the JSON should be equal to:
     """
     {
-      "message": "Exchange with id 6e7f1715-1111-1111-1111-969af78a063c not found"
+      "message": "Exchange with id '6e7f1715-1111-1111-1111-969af78a063c' not found"
     }
     """
