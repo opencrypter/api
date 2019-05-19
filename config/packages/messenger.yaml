@@ -10,8 +10,8 @@ framework:
         buses:
             messenger.bus.command:
                 middleware:
-                    - doctrine_transaction
                     - Core\Infrastructure\Bus\DomainEventsMiddleware
+                    - doctrine_transaction
 
             messenger.bus.query: ~
             messenger.bus.events: ~

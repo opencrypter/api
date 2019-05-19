@@ -1,0 +1,17 @@
+parameters:
+    routing_key.order_created:  !php/const Core\Infrastructure\Messaging\RoutingKey::ORDER_CREATED
+
+old_sound_rabbit_mq:
+    connections:
+        default:
+            url: '%env(RABBITMQ_URL)%'
+
+    producers:
+        domain_event:
+            exchange_options: { name: 'domain_event', type: topic }
+
+    consumers:
+#        domain_event.order.created:
+#            callback:         Core\Infrastructure\EventSubscriber\Domain\OnOrderCreated
+#            exchange_options: { name: 'domain_event', type: topic }
+#            queue_options:    { name: 'order.update_batch', routing_keys: ['%routing_key.order_created%']}
