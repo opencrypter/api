@@ -19,6 +19,8 @@ doctrine:
             exchange_id: Core\Infrastructure\Persistence\Type\DoctrineExchangeId
             symbols: Core\Infrastructure\Persistence\Type\DoctrineSymbols
             symbol: Core\Infrastructure\Persistence\Type\DoctrineSymbol
+            base: Core\Infrastructure\Persistence\Type\DoctrineBase
+            quote: Core\Infrastructure\Persistence\Type\DoctrineQuote
             name: Core\Infrastructure\Persistence\Type\DoctrineName
             order_id: Core\Infrastructure\Persistence\Type\DoctrineOrderId
             position: Core\Infrastructure\Persistence\Type\DoctrinePosition
@@ -26,6 +28,8 @@ doctrine:
             value: Core\Infrastructure\Persistence\Type\DoctrineValue
             executed_at: Core\Infrastructure\Persistence\Type\DoctrineExecutedAt
             credentials_id: Core\Infrastructure\Persistence\Type\DoctrineCredentialsId
+            price: Core\Infrastructure\Persistence\Type\DoctrinePrice
+            ticker_id: Core\Infrastructure\Persistence\Type\DoctrineTickerId
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
