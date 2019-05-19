@@ -29,6 +29,8 @@ RUN apk add --update \
     php7-zip \
     php7-sodium \
     php7-redis \
+    php7-bcmath \
+    php7-sockets \
     libsodium-dev \
     make \
     php7-xmlwriter \

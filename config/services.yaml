@@ -10,6 +10,7 @@ services:
       $queryBus:   '@messenger.bus.query'
       $commandBus: '@messenger.bus.command'
       $eventBus: '@messenger.bus.events'
+      $queueProducer: '@old_sound_rabbit_mq.domain_event_producer'
       $consoleLogger: '@monolog.logger.console'
       $passwordEncoder: '@security.password_encoder'
       $wsRedisClient: '@websocket_redis_client'
@@ -51,6 +52,9 @@ services:
 
   Core\Infrastructure\Api\:
     resource: '../src/Core/Infrastructure/Api/*'
+
+  Core\Infrastructure\Messaging\:
+    resource: '../src/Core/Infrastructure/Messaging/*'
 
   React\EventLoop\Factory: ~
 

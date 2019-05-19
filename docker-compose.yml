@@ -17,6 +17,7 @@ services:
       - "db"
       - "server"
       - "redis"
+      - "rabbitmq"
     ports:
       - "9000:9000"
     volumes:
@@ -37,12 +38,24 @@ services:
     ports:
       - "6379:6379"
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=cluster_cookie
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+
   start_dependencies:
     image: dadarek/wait-for-dependencies
     depends_on:
       - 'server'
       - 'db'
       - 'redis'
+      - 'rabbitmq'
       - 'php'
     command: db:5432 server:80 redis:6379
     environment:

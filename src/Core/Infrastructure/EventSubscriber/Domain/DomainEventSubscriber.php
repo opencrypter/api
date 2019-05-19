@@ -3,23 +3,22 @@ declare(strict_types=1);
 
 namespace Core\Infrastructure\EventSubscriber\Domain;
 
-use Core\Domain\Event\Event;
-use Core\Domain\Event\EventStore;
+use Core\Infrastructure\Messaging\RabbitMqProducer;
 
-class DomainEventSubscriber
+abstract class DomainEventSubscriber
 {
     /**
-     * @var EventStore
+     * @var RabbitMqProducer
      */
-    private $repository;
+    private $rabbitMqProducer;
 
-    public function __construct(EventStore $repository)
+    public function __construct(RabbitMqProducer $rabbitMqProducer)
     {
-        $this->repository = $repository;
+        $this->rabbitMqProducer = $rabbitMqProducer;
     }
 
-    public function __invoke(Event $event)
+    protected function publish(string $routingKey, array $message): void
     {
-        $this->repository->append($event);
+        $this->rabbitMqProducer->publish($routingKey, $message);
     }
 }
