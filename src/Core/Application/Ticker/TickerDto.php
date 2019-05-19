@@ -16,14 +16,28 @@ class TickerDto
     private $price;
 
     /**
+     * @var string
+     */
+    private $base;
+
+    /**
+     * @var string
+     */
+    private $quote;
+
+    /**
      * TickerDto constructor.
      *
      * @param string $symbol
+     * @param string $base
+     * @param string $quote
      * @param float  $price
      */
-    public function __construct(string $symbol, float $price)
+    public function __construct(string $symbol, string $base, string $quote, float $price)
     {
         $this->symbol = $symbol;
+        $this->base   = $base;
+        $this->quote  = $quote;
         $this->price  = $price;
     }
 
@@ -33,6 +47,22 @@ class TickerDto
     public function symbol(): string
     {
         return $this->symbol;
+    }
+
+    /**
+     * @return string
+     */
+    public function base(): string
+    {
+        return $this->base;
+    }
+
+    /**
+     * @return string
+     */
+    public function quote(): string
+    {
+        return $this->quote;
     }
 
     /**

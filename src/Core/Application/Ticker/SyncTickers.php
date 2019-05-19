@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Core\Application\Ticker;
 
-class SynchronizeTickers
+class SyncTickers
 {
     /**
      * @var string

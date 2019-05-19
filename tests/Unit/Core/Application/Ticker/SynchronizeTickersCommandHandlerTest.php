@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Core\Application\Ticker;
 
 use Core\Application\Exchange\ExchangeNotFound;
-use Core\Application\Ticker\SynchronizeTickers;
-use Core\Application\Ticker\SynchronizeTickersCommandHandler;
+use Core\Application\Ticker\SyncTickers;
+use Core\Application\Ticker\SyncTickersCommandHandler;
 use Core\Application\Ticker\TickerApi;
 use Core\Application\Ticker\TickerApiNotFound;
 use Core\Application\Ticker\TickerDto;
@@ -43,7 +43,7 @@ class SynchronizeTickersCommandHandlerTest extends TestCase
         $this->tickerRepositoryMock   = new TickerRepositoryMock($this->prophesize(TickerRepository::class));
         $this->exchangeRepositoryMock = new ExchangeRepositoryMock($this->prophesize(ExchangeRepository::class));
 
-        $this->handler = new SynchronizeTickersCommandHandler(
+        $this->handler = new SyncTickersCommandHandler(
             new TickerApiFactory([
                 'test' => $this->apiTickerMock->reveal()
             ]),
@@ -69,8 +69,18 @@ class SynchronizeTickersCommandHandlerTest extends TestCase
 
         $this->apiTickerMock
             ->shouldFindAllTickers([
-                new TickerDto($existingTicker->symbol()->value(), $updatedTicker->price()->value()),
-                new TickerDto($newTicker->symbol()->value(), $newTicker->price()->value()),
+                new TickerDto(
+                    $existingTicker->symbol()->value(),
+                    $existingTicker->base()->value(),
+                    $existingTicker->quote()->value(),
+                    $updatedTicker->price()->value()
+                ),
+                new TickerDto(
+                    $newTicker->symbol()->value(),
+                    $newTicker->base()->value(),
+                    $newTicker->quote()->value(),
+                    $newTicker->price()->value()
+                ),
             ]);
 
         $this->tickerRepositoryMock
@@ -80,7 +90,7 @@ class SynchronizeTickersCommandHandlerTest extends TestCase
             ->shouldNewId($newTicker->id())
             ->shouldSave($newTicker);
 
-        $this->handler->__invoke(new SynchronizeTickers($exchange->name()->value()));
+        $this->handler->__invoke(new SyncTickers($exchange->name()->value()));
     }
 
     /**
@@ -95,7 +105,7 @@ class SynchronizeTickersCommandHandlerTest extends TestCase
         $this->exchangeRepositoryMock
             ->shouldFindExchangeOfName($exchange->name(), null);
 
-        $this->handler->__invoke(new SynchronizeTickers($exchange->name()->value()));
+        $this->handler->__invoke(new SyncTickers($exchange->name()->value()));
     }
 
     /**
@@ -105,6 +115,6 @@ class SynchronizeTickersCommandHandlerTest extends TestCase
     {
         $this->expectException(TickerApiNotFound::class);
 
-        $this->handler->__invoke(new SynchronizeTickers('invalid'));
+        $this->handler->__invoke(new SyncTickers('invalid'));
     }
 }

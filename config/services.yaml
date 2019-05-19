@@ -10,9 +10,11 @@ services:
       $queryBus:   '@messenger.bus.query'
       $commandBus: '@messenger.bus.command'
       $eventBus: '@messenger.bus.events'
+      $consoleLogger: '@monolog.logger.console'
       $passwordEncoder: '@security.password_encoder'
       $wsRedisClient: '@websocket_redis_client'
-      $apis: []
+      $apis:
+        binance: '@Core\Infrastructure\Api\Binance\Binance'
 
   # ┌─────────────────────────┐
   # │ Application services    │
@@ -47,6 +49,9 @@ services:
   Core\Infrastructure\EventSubscriber\:
     resource: '../src/Core/Infrastructure/EventSubscriber/*'
 
+  Core\Infrastructure\Api\:
+    resource: '../src/Core/Infrastructure/Api/*'
+
   React\EventLoop\Factory: ~
 
   websocket_stream_loop:
@@ -63,6 +68,8 @@ services:
     arguments:
       $publicKey: '%env(CRYPTO_PUBLIC_KEY)%'
       $secretKey: '%env(CRYPTO_SECRET_KEY)%'
+
+  GuzzleHttp\Client: ~
 
   # ┌─────────────────────────┐
   # │ UI services             │

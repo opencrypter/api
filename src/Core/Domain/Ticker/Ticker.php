@@ -42,17 +42,37 @@ class Ticker extends AggregateRoot
     private $updatedAt;
 
     /**
+     * @var Base
+     */
+    private $base;
+
+    /**
+     * @var Quote
+     */
+    private $quote;
+
+    /**
      * Ticker constructor.
      *
      * @param TickerId   $id
      * @param Symbol     $symbol
+     * @param Base       $base
+     * @param Quote      $quote
      * @param ExchangeId $exchangeId
      * @param Price      $price
      */
-    public function __construct(TickerId $id, Symbol $symbol, ExchangeId $exchangeId, Price $price)
-    {
+    public function __construct(
+        TickerId $id,
+        Symbol $symbol,
+        Base $base,
+        Quote $quote,
+        ExchangeId $exchangeId,
+        Price $price
+    ) {
         $this->id         = $id;
         $this->symbol     = $symbol;
+        $this->base       = $base;
+        $this->quote      = $quote;
         $this->exchangeId = $exchangeId;
         $this->price      = $price;
         $this->createdAt  = CreatedAt::now();
@@ -75,6 +95,22 @@ class Ticker extends AggregateRoot
     }
 
     /**
+     * @return Base
+     */
+    public function base(): Base
+    {
+        return $this->base;
+    }
+
+    /**
+     * @return Quote
+     */
+    public function quote(): Quote
+    {
+        return $this->quote;
+    }
+
+    /**
      * @return ExchangeId
      */
     public function exchangeId(): ExchangeId
@@ -93,7 +129,7 @@ class Ticker extends AggregateRoot
     public function updatePrice(Price $price): self
     {
         if (!$this->price->equals($price)) {
-            $this->price     = $price;
+            $this->price = $price;
             $this->markAsUpdated();
         }
 

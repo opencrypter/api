@@ -122,6 +122,12 @@
     "gesdinet/jwt-refresh-token-bundle": {
         "version": "v0.5.4"
     },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
     "guzzlehttp/psr7": {
         "version": "1.5.2"
     },
@@ -142,6 +148,9 @@
             "version": "2.5",
             "ref": "509b1542f3180a1cfe248ade8b7bf5092c2d4127"
         }
+    },
+    "monolog/monolog": {
+        "version": "1.24.0"
     },
     "myclabs/deep-copy": {
         "version": "1.8.1"
@@ -361,6 +370,23 @@
             "version": "4.1",
             "ref": "f11dfa18618a8a5dd853ea3a302db2e0557e031c"
         }
+    },
+    "symfony/monolog-bridge": {
+        "version": "v4.2.8"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.1",
+            "ref": "18ebf5a940573a20de06f9c4060101eeb438cf3d"
+        },
+        "files": [
+            "config/packages/dev/monolog.yaml",
+            "config/packages/prod/monolog.yaml",
+            "config/packages/test/monolog.yaml"
+        ]
     },
     "symfony/orm-pack": {
         "version": "v1.0.5"

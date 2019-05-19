@@ -1,0 +1,24 @@
+Core\Domain\Ticker\Ticker:
+  type: entity
+  table: ticker
+
+  id:
+    id:
+      type: ticker_id
+  fields:
+    symbol:
+      type: symbol
+    base:
+      type: base
+    quote:
+      type: quote
+    exchangeId:
+      type: exchange_id
+    price:
+      type: price
+    createdAt:
+      type: created_at
+    updatedAt:
+      type: updated_at
+      nullable: true
+
